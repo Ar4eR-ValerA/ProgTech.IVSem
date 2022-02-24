@@ -599,40 +599,36 @@ import org.openjdk.jmh.annotations.*;
 
 import java.util.concurrent.TimeUnit;
 
+@State(Scope.Benchmark)
+@Fork(value = 1, warmups = 1)
+@Warmup(iterations = 2)
+@OutputTimeUnit(TimeUnit.NANOSECONDS)
+@BenchmarkMode(Mode.AverageTime)
 public class Benchmark {
     public static void main(String[] args) throws Exception {
         org.openjdk.jmh.Main.main(args);
     }
 
-    @org.openjdk.jmh.annotations.Benchmark
-    @Fork(value = 1, warmups = 1)
-    @Warmup(iterations = 2)
-    @OutputTimeUnit(TimeUnit.NANOSECONDS)
-    @BenchmarkMode(Mode.AverageTime)
-    public void BundledSort() {
-        int[] arr = new int[5000];
+    public static int[] arr;
+
+    @Setup(Level.Iteration)
+    public void Setup() {
+        arr = new int[5000];
 
         for (int i = 0; i < 5000; i++) {
             arr[i] = (int) (Math.random() * 10000);
         }
+    }
 
+    @org.openjdk.jmh.annotations.Benchmark
+    public void BundledSort() {
         SortsAlgorithms sortsAlgorithms = new SortsAlgorithms();
 
         sortsAlgorithms.BundledSort(arr);
     }
 
     @org.openjdk.jmh.annotations.Benchmark
-    @Fork(value = 1, warmups = 1)
-    @Warmup(iterations = 2)
-    @OutputTimeUnit(TimeUnit.NANOSECONDS)
-    @BenchmarkMode(Mode.AverageTime)
     public void MergeSort() {
-        int[] arr = new int[5000];
-
-        for (int i = 0; i < 5000; i++) {
-            arr[i] = (int) (Math.random() * 10000);
-        }
-
         SortsAlgorithms sortsAlgorithms = new SortsAlgorithms();
 
         sortsAlgorithms.MergeSort(arr, 5000);
@@ -643,7 +639,7 @@ public class Benchmark {
 ### Полученные результаты:
 ![image](4java.png)
 
-Заметим огромную разницу по времени встроенной сортировки в Java со встроенной сортировкой в C#. Это вызвано тем, что в C# я смог разделить время генерации случайного массива от сортировок и замерять только сортировку, а в Java я не нашёл, как это сделать, поэтому замерял время сортировки вместе с генерацией, которая занимает много времени. Среднее время собственной сортировки больше, чем у встроенной, однако оно имеет большую погрешность, поэтому выделать какие-то выводу, я не стану. Также не получилось замерить алокаию в Java.
+Заметим большую разницу по времени между Java и C#. Встроенные сортировки отличаются не так сильно, вероятно из-за того, что под капотом сортировка Java хорошо оптимизирована под собственно Java, в отличии от рукописной сортировки, которая работает весьма медленно. Среднее время рукописной сортировки имеет большую погрешность, из чего можно сделать выводы о неоптимизированности Java, и даже если взять нижнюю границу по времени, то, всё равно, рукописная сортировка на C# намного быстрее, чем на Java. Также не получилось замерить алокаию в Java.
 
 ### **5. Анализ Backups из прошлого семестра, с помощью dotMemory**
 >Используя инструменты dotTrace, dotMemory, всё-что-угодно-хоть-windbg, проанализировать работу написанного кода для бекапов. Необходимо написать сценарий, когда в цикле будет выполняться много запусков, будут создаваться и удаляться точки. Проверить два сценария: с реальной работой с файловой системой и без неё. В отчёте неоходимо проанализировать полученные результаты, сделать вывод о написанном коде. Опционально: предложить варианты по модернизации или написать альтернативную имплементацию.

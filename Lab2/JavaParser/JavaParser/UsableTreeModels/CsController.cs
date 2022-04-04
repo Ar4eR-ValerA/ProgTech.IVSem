@@ -30,7 +30,7 @@ public class CsController
         }
     }
 
-    private T FindNewContext<T>(IParseTree parseTree) where T : IParseTree
+    private T SteppedDownContext<T>(IParseTree parseTree) where T : IParseTree
     {
         for (var i = 0; i < parseTree.ChildCount; i++)
         {
@@ -71,7 +71,7 @@ public class CsController
 
     private void ParseClassDeclaration(JavaParser.ClassDeclarationContext parseTree)
     {
-        var child = FindNewContext<JavaParser.IdentifierContext>(parseTree);
+        var child = SteppedDownContext<JavaParser.IdentifierContext>(parseTree);
         Name = child?.GetText();
     }
 

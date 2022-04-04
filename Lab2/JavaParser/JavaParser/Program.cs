@@ -20,5 +20,3 @@ var csController = new CsController(tree);
 
 GraphVisualizer graphVisualizer = new GraphVisualizer();
 graphVisualizer.Visualize(tree, @$"D:\Projects\Tech.Ar4eR-ValerA\Lab2\JavaParser\Tree.txt");
-
-Console.WriteLine();

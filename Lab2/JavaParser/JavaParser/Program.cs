@@ -1,7 +1,7 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using AntlrExample.ParsingTools;
-using AntlrExample.UsableTreeGeneration;
+using AntlrExample.UsableTreeModels;
 
 var text = File.ReadAllText(
     @$"D:\Projects\Tech.Ar4eR-ValerA\Lab2\JavaMVC\src\main\java\com\example\javamvc\controllers\JavaMvcApplication.java");

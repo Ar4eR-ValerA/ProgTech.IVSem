@@ -1,6 +1,6 @@
 ﻿using Antlr4.Runtime.Tree;
 
-namespace AntlrExample.UsableTreeGeneration;
+namespace AntlrExample.UsableTreeModels;
 
 public class CsController
 {

@@ -1,6 +1,6 @@
 ﻿using Antlr4.Runtime.Tree;
 
-namespace AntlrExample.UsableTreeGeneration;
+namespace AntlrExample.UsableTreeModels;
 
 public class CsMethod
 {
@@ -9,18 +9,18 @@ public class CsMethod
     public CsMethod(JavaParser.ClassBodyDeclarationContext parseTree)
     {
         IsValid = true;
-        
+
         ParseMethodDeclaration(parseTree);
-        
+
         Validate();
     }
 
     public string Name { get; private set; }
     public string Route { get; private set; }
     public string RestVerb { get; private set; }
-    public Type ReturningType { get; private set; }
+    public string ReturningType { get; private set; }
     public bool IsValid { get; set; }
-    
+
     //TODO: Args.
     //TODO: Нужны сложные аргументы.
     public IReadOnlyList<string> Args => _args;
@@ -44,7 +44,7 @@ public class CsMethod
 
         if (ReturningType is null)
         {
-            //TODO: IsValid = false;
+            TODO: IsValid = false;
         }
     }
 
@@ -67,7 +67,7 @@ public class CsMethod
 
         return default;
     }
-    
+
     private IReadOnlyList<T> SteppedDownContexts<T>(IParseTree parseTree) where T : IParseTree
     {
         var contexts = new List<T>();
@@ -90,6 +90,32 @@ public class CsMethod
         return contexts;
     }
 
+    private T MultiSteppedDownContext<T>(IParseTree parseTree) where T : IParseTree
+    {
+        if (parseTree is null)
+        {
+            return default;
+        }
+        
+        for (var i = 0; i < parseTree.ChildCount; i++)
+        {
+            var child = parseTree.GetChild(i);
+
+            if (child is T childT)
+            {
+                return childT;
+            }
+
+            var steppedDownContext = MultiSteppedDownContext<T>(child);
+            if (steppedDownContext is T steppedDown)
+            {
+                return steppedDown;
+            }
+        }
+
+        return default;
+    }
+
     private void ParseMethodDeclaration(JavaParser.ClassBodyDeclarationContext parseTree)
     {
         for (var i = 0; i < parseTree.ChildCount; i++)
@@ -107,17 +133,22 @@ public class CsMethod
             return;
         }
 
-        //TODO: Вайлом идти вниз, пока на найдём тайп
         var typeTypeOrVoid = SteppedDownContext<JavaParser.TypeTypeOrVoidContext>(methodDeclaration);
         var typeType = SteppedDownContext<JavaParser.TypeTypeContext>(typeTypeOrVoid);
-        var primitiveType = SteppedDownContext<JavaParser.PrimitiveTypeContext>(typeType);
 
-        if (primitiveType is null)
+        if (typeType is null)
         {
             return;
         }
         
-        ReturningType = Type.GetType(primitiveType.GetText());
+        var someType = typeType.GetChild(0);
+
+        ReturningType = someType switch
+        {
+            JavaParser.PrimitiveTypeContext primitiveType => ParseType(primitiveType),
+            JavaParser.ClassOrInterfaceTypeContext classOrInterfaceType => ParseType(classOrInterfaceType),
+            _ => ReturningType
+        };
     }
 
     private void ParseMethodAttributes(IReadOnlyList<JavaParser.ModifierContext> parseTrees)
@@ -150,5 +181,32 @@ public class CsMethod
             Route = attributeArg.Trim('"');
             break;
         }
+    }
+
+    private string ParseType(JavaParser.PrimitiveTypeContext parseTree)
+    {
+        return parseTree.GetText();
+    }
+
+    private string ParseType(JavaParser.ClassOrInterfaceTypeContext parseTree)
+    {
+        var name = SteppedDownContext<JavaParser.IdentifierContext>(parseTree).GetText();
+
+        var typeArguments = SteppedDownContext<JavaParser.TypeArgumentsContext>(parseTree);
+        var typeType = MultiSteppedDownContext<JavaParser.TypeTypeContext>(typeArguments);
+
+        if (typeType is null)
+        {
+            return name;
+        }
+        
+        var someType = typeType.GetChild(0);
+
+        return someType switch
+        {
+            JavaParser.PrimitiveTypeContext primitiveType => $"{name}<{ParseType(primitiveType)}>",
+            JavaParser.ClassOrInterfaceTypeContext classOrInterfaceType => $"{name}<{ParseType(classOrInterfaceType)}>",
+            _ => null
+        };
     }
 }

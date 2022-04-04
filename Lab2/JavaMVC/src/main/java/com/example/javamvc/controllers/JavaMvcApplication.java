@@ -1,7 +1,9 @@
-package com.example.javamvc;
+package com.example.javamvc.controllers;
 
 import Core.Customer;
 import Core.CustomerService;
+import com.example.javamvc.dtos.CustomerCreateDto;
+import com.example.javamvc.dtos.CustomerGetDto;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +26,20 @@ public class JavaMvcApplication {
     }
 
     @PostMapping("/create")
-    public int create(String name, String email) {
-        return customerService.add(new Customer(name, email));
+    public int create(CustomerCreateDto customerCreateDto) {
+        return customerService.add(new Customer(customerCreateDto.getName(), customerCreateDto.getEmail()));
     }
 
     @GetMapping("/getAll")
-    public ArrayList<Customer> getAll() {
-        return customerService.getAll();
+    public ArrayList<CustomerGetDto> getAll() {
+        var customerDtos = new ArrayList<CustomerGetDto>();
+        var customers = customerService.getAll();
+
+        for (Customer c: customers) {
+            customerDtos.add(new CustomerGetDto(c.getId(), c.getName(), c.getEmail()));
+        }
+
+        return customerDtos;
     }
 
 

@@ -18,10 +18,11 @@ public class CsMethod
     public string Name { get; private set; }
     public string Route { get; private set; }
     public string RestVerb { get; private set; }
+    public Type ReturningType { get; private set; }
     public bool IsValid { get; set; }
     
     //TODO: Args.
-    //TODO: Нужны более сложные аргументы.
+    //TODO: Нужны сложные аргументы.
     public IReadOnlyList<string> Args => _args;
 
     private void Validate()
@@ -39,6 +40,11 @@ public class CsMethod
         if (string.IsNullOrEmpty(RestVerb))
         {
             IsValid = false;
+        }
+
+        if (ReturningType is null)
+        {
+            //TODO: IsValid = false;
         }
     }
 
@@ -92,9 +98,26 @@ public class CsMethod
             ParseMethodAttributes(modifiers);
         }
 
-        var memberParseTree = SteppedDownContext<JavaParser.MemberDeclarationContext>(parseTree);
-        var methodDeclarationParseTree = SteppedDownContext<JavaParser.MethodDeclarationContext>(memberParseTree);
-        Name = SteppedDownContext<JavaParser.IdentifierContext>(methodDeclarationParseTree)?.GetText();
+        var memberDeclaration = SteppedDownContext<JavaParser.MemberDeclarationContext>(parseTree);
+        var methodDeclaration = SteppedDownContext<JavaParser.MethodDeclarationContext>(memberDeclaration);
+        Name = SteppedDownContext<JavaParser.IdentifierContext>(methodDeclaration)?.GetText();
+
+        if (Name is null)
+        {
+            return;
+        }
+
+        //TODO: Вайлом идти вниз, пока на найдём тайп
+        var typeTypeOrVoid = SteppedDownContext<JavaParser.TypeTypeOrVoidContext>(methodDeclaration);
+        var typeType = SteppedDownContext<JavaParser.TypeTypeContext>(typeTypeOrVoid);
+        var primitiveType = SteppedDownContext<JavaParser.PrimitiveTypeContext>(typeType);
+
+        if (primitiveType is null)
+        {
+            return;
+        }
+        
+        ReturningType = Type.GetType(primitiveType.GetText());
     }
 
     private void ParseMethodAttributes(IReadOnlyList<JavaParser.ModifierContext> parseTrees)
@@ -124,7 +147,7 @@ public class CsMethod
             }
 
             RestVerb = attributeName.Remove(attributeName.Length - 7, 7);
-            Route = attributeArg;
+            Route = attributeArg.Trim('"');
             break;
         }
     }

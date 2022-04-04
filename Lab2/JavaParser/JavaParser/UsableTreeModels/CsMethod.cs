@@ -1,16 +1,18 @@
-﻿using Antlr4.Runtime.Tree;
+﻿using Antlr4.Runtime.Misc;
+using Antlr4.Runtime.Tree;
 
 namespace AntlrExample.UsableTreeModels;
 
 public class CsMethod
 {
-    private List<string> _args;
+    private List<Pair<string, string>> _args;
 
     public CsMethod(JavaParser.ClassBodyDeclarationContext parseTree)
     {
         IsValid = true;
+        _args = new List<Pair<string, string>>();
 
-        ParseMethodDeclaration(parseTree);
+        ParseDeclaration(parseTree);
 
         Validate();
     }
@@ -21,9 +23,7 @@ public class CsMethod
     public string ReturningType { get; private set; }
     public bool IsValid { get; set; }
 
-    //TODO: Args.
-    //TODO: Нужны сложные аргументы.
-    public IReadOnlyList<string> Args => _args;
+    public IReadOnlyList<Pair<string, string>> Args => _args;
 
     private void Validate()
     {
@@ -44,7 +44,7 @@ public class CsMethod
 
         if (ReturningType is null)
         {
-            TODO: IsValid = false;
+            IsValid = false;
         }
     }
 
@@ -90,76 +90,37 @@ public class CsMethod
         return contexts;
     }
 
-    private T MultiSteppedDownContext<T>(IParseTree parseTree) where T : IParseTree
+    private void ParseDeclaration(JavaParser.ClassBodyDeclarationContext parseTree)
     {
-        if (parseTree is null)
-        {
-            return default;
-        }
-        
-        for (var i = 0; i < parseTree.ChildCount; i++)
-        {
-            var child = parseTree.GetChild(i);
-
-            if (child is T childT)
-            {
-                return childT;
-            }
-
-            var steppedDownContext = MultiSteppedDownContext<T>(child);
-            if (steppedDownContext is T steppedDown)
-            {
-                return steppedDown;
-            }
-        }
-
-        return default;
-    }
-
-    private void ParseMethodDeclaration(JavaParser.ClassBodyDeclarationContext parseTree)
-    {
-        for (var i = 0; i < parseTree.ChildCount; i++)
-        {
-            var modifiers = SteppedDownContexts<JavaParser.ModifierContext>(parseTree);
-            ParseMethodAttributes(modifiers);
-        }
+        var modifiers = SteppedDownContexts<JavaParser.ModifierContext>(parseTree);
+        ParseAttributes(modifiers);
 
         var memberDeclaration = SteppedDownContext<JavaParser.MemberDeclarationContext>(parseTree);
         var methodDeclaration = SteppedDownContext<JavaParser.MethodDeclarationContext>(memberDeclaration);
-        Name = SteppedDownContext<JavaParser.IdentifierContext>(methodDeclaration)?.GetText();
 
+        ParseName(methodDeclaration);
         if (Name is null)
         {
             return;
         }
 
-        var typeTypeOrVoid = SteppedDownContext<JavaParser.TypeTypeOrVoidContext>(methodDeclaration);
-        var typeType = SteppedDownContext<JavaParser.TypeTypeContext>(typeTypeOrVoid);
-
-        if (typeType is null)
+        ParseReturningType(methodDeclaration);
+        if (ReturningType is null)
         {
             return;
         }
-        
-        var someType = typeType.GetChild(0);
 
-        ReturningType = someType switch
-        {
-            JavaParser.PrimitiveTypeContext primitiveType => ParseType(primitiveType),
-            JavaParser.ClassOrInterfaceTypeContext classOrInterfaceType => ParseType(classOrInterfaceType),
-            _ => ReturningType
-        };
+        ParseArguments(methodDeclaration);
     }
 
-    private void ParseMethodAttributes(IReadOnlyList<JavaParser.ModifierContext> parseTrees)
+    private void ParseAttributes(IReadOnlyList<JavaParser.ModifierContext> parseTrees)
     {
         foreach (var parseTree in parseTrees)
         {
             var classModifier = SteppedDownContext<JavaParser.ClassOrInterfaceModifierContext>(parseTree);
             var annotation = SteppedDownContext<JavaParser.AnnotationContext>(classModifier);
             var qualifiedName = SteppedDownContext<JavaParser.QualifiedNameContext>(annotation);
-            var identifier = SteppedDownContext<JavaParser.IdentifierContext>(qualifiedName);
-            var attributeName = identifier?.GetText();
+            var attributeName = qualifiedName?.GetText();
 
             if (string.IsNullOrEmpty(attributeName))
             {
@@ -167,10 +128,7 @@ public class CsMethod
             }
 
             var elementValue = SteppedDownContext<JavaParser.ElementValueContext>(annotation);
-            var expression = SteppedDownContext<JavaParser.ExpressionContext>(elementValue);
-            var primary = SteppedDownContext<JavaParser.PrimaryContext>(expression);
-            var literal = SteppedDownContext<JavaParser.LiteralContext>(primary);
-            var attributeArg = literal?.GetText();
+            var attributeArg = elementValue?.GetText();
 
             if (string.IsNullOrEmpty(attributeArg))
             {
@@ -183,30 +141,32 @@ public class CsMethod
         }
     }
 
-    private string ParseType(JavaParser.PrimitiveTypeContext parseTree)
+    private void ParseName(JavaParser.MethodDeclarationContext parseTree)
     {
-        return parseTree.GetText();
+        Name = SteppedDownContext<JavaParser.IdentifierContext>(parseTree)?.GetText();
     }
 
-    private string ParseType(JavaParser.ClassOrInterfaceTypeContext parseTree)
+    private void ParseReturningType(JavaParser.MethodDeclarationContext parseTree)
     {
-        var name = SteppedDownContext<JavaParser.IdentifierContext>(parseTree).GetText();
+        var typeTypeOrVoid = SteppedDownContext<JavaParser.TypeTypeOrVoidContext>(parseTree);
+        var typeType = SteppedDownContext<JavaParser.TypeTypeContext>(typeTypeOrVoid);
+        ReturningType = typeType?.GetText();
+    }
 
-        var typeArguments = SteppedDownContext<JavaParser.TypeArgumentsContext>(parseTree);
-        var typeType = MultiSteppedDownContext<JavaParser.TypeTypeContext>(typeArguments);
+    private void ParseArguments(JavaParser.MethodDeclarationContext parseTree)
+    {
+        var formalParameters = SteppedDownContext<JavaParser.FormalParametersContext>(parseTree);
+        var formalParameterList = SteppedDownContext<JavaParser.FormalParameterListContext>(formalParameters);
 
-        if (typeType is null)
+        if (formalParameterList is not null)
         {
-            return name;
+            foreach (var formalParameter in formalParameterList.children)
+            {
+                var type = SteppedDownContext<JavaParser.TypeTypeContext>(formalParameter).GetText();
+                var name = SteppedDownContext<JavaParser.VariableDeclaratorIdContext>(formalParameter).GetText();
+
+                _args.Add(new Pair<string, string>(type, name));
+            }
         }
-        
-        var someType = typeType.GetChild(0);
-
-        return someType switch
-        {
-            JavaParser.PrimitiveTypeContext primitiveType => $"{name}<{ParseType(primitiveType)}>",
-            JavaParser.ClassOrInterfaceTypeContext classOrInterfaceType => $"{name}<{ParseType(classOrInterfaceType)}>",
-            _ => null
-        };
     }
 }

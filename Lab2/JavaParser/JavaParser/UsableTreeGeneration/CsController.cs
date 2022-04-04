@@ -6,18 +6,18 @@ public class CsController
 {
     private List<CsMethod> _methods;
 
-    public CsController(IParseTree tree)
+    public CsController(JavaParser.CompilationUnitContext parseTree)
     {
         _methods = new List<CsMethod>();
-        ParseTree(tree);
+        ParseTree(parseTree);
 
-        CheckNullAndThrow();
+        ValidateAndThrow();
     }
 
     public string Name { get; private set; }
     public IReadOnlyList<CsMethod> Methods => _methods;
 
-    private void CheckNullAndThrow()
+    private void ValidateAndThrow()
     {
         if (string.IsNullOrEmpty(Name))
         {
@@ -30,8 +30,21 @@ public class CsController
         }
     }
 
-    //TODO: Сделать отдельный сервис для парсинга.
-    //TODO: Добавить брейков бы
+    private T FindNewContext<T>(IParseTree parseTree) where T : IParseTree
+    {
+        for (var i = 0; i < parseTree.ChildCount; i++)
+        {
+            var child = parseTree.GetChild(i);
+
+            if (child is T childT)
+            {
+                return childT;
+            }
+        }
+
+        return default;
+    }
+
     //TODO: Если что-то из метода не удалось найти, то просто не учитываем его.
     private void ParseTree(IParseTree parseTree)
     {
@@ -41,13 +54,13 @@ public class CsController
 
             switch (child)
             {
-                case JavaParser.ClassDeclarationContext:
-                    ParseClassDeclaration(child);
+                case JavaParser.ClassDeclarationContext classDeclarationContext:
+                    ParseClassDeclaration(classDeclarationContext);
                     ParseTree(child);
                     break;
 
-                case JavaParser.ClassBodyDeclarationContext:
-                    ParseMethodDeclaration(child);
+                case JavaParser.ClassBodyDeclarationContext classBodyDeclarationContext:
+                    AddMethod(classBodyDeclarationContext);
                     break;
 
                 case JavaParser.TypeDeclarationContext or JavaParser.ClassBodyContext:
@@ -57,74 +70,19 @@ public class CsController
         }
     }
 
-    private void ParseClassDeclaration(IParseTree parseTree)
+    private void ParseClassDeclaration(JavaParser.ClassDeclarationContext parseTree)
     {
-        for (var i = 0; i < parseTree.ChildCount; i++)
-        {
-            var child = parseTree.GetChild(i);
-
-            if (child is JavaParser.IdentifierContext)
-            {
-                Name = child.GetText();
-            }
-        }
+        var child = FindNewContext<JavaParser.IdentifierContext>(parseTree);
+        Name = child?.GetText();
     }
 
-    private void ParseMethodDeclaration(IParseTree parseTree)
+    private void AddMethod(JavaParser.ClassBodyDeclarationContext parseTree)
     {
-        string methodName = null;
+        var method = new CsMethod(parseTree);
 
-        for (var i = 0; i < parseTree.ChildCount; i++)
+        if (method.IsValid)
         {
-            ParseMethodAttributes();
+            _methods.Add(method);
         }
-
-        for (var i = 0; i < parseTree.ChildCount; i++)
-        {
-            var child = parseTree.GetChild(i);
-
-            if (child is JavaParser.MemberDeclarationContext)
-            {
-                methodName = ParseMethodName(child);
-            }
-        }
-
-
-        var method = new CsMethod(methodName, null, null, null);
-        _methods.Add(method);
-    }
-
-    private void ParseMethodAttributes()
-    {
-    }
-
-    private string ParseMethodName(IParseTree parseTree)
-    {
-        for (var i = 0; i < parseTree.ChildCount; i++)
-        {
-            var child = parseTree.GetChild(i);
-
-            if (child is JavaParser.MethodDeclarationContext)
-            {
-                parseTree = child;
-            }
-        }
-
-        if (parseTree is not JavaParser.MethodDeclarationContext)
-        {
-            return null;
-        }
-        
-        for (var i = 0; i < parseTree.ChildCount; i++)
-        {
-            var child = parseTree.GetChild(i);
-
-            if (child is JavaParser.IdentifierContext)
-            {
-                return child.GetText();
-            }
-        }
-
-        return null;
     }
 }

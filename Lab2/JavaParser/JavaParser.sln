@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaParser", "JavaParser\JavaParser.csproj", "{CFDF9DA3-2C78-4E4D-9031-85F2C60BD6FF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CFDF9DA3-2C78-4E4D-9031-85F2C60BD6FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFDF9DA3-2C78-4E4D-9031-85F2C60BD6FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFDF9DA3-2C78-4E4D-9031-85F2C60BD6FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFDF9DA3-2C78-4E4D-9031-85F2C60BD6FF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

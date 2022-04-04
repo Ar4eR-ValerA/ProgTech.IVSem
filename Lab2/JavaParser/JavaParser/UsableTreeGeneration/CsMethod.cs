@@ -19,7 +19,10 @@ public class CsMethod
     public string Url { get; private set; }
     public string RestVerb { get; private set; }
     public bool IsValid { get; set; }
-
+    
+    //TODO: Url
+    //TODO: RestVerb
+    //TODO: Args.
     //TODO: Нужны более сложные аргументы.
     public IReadOnlyList<string> Args => _args;
 

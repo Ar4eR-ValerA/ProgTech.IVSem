@@ -21,12 +21,12 @@ public class CsController
     {
         if (string.IsNullOrEmpty(Name))
         {
-            //throw new Exception("Controller's name not found");
+            throw new Exception("Controller's name not found");
         }
 
         if (_methods.Count == 0)
         {
-            //throw new Exception("Controller's methods not found");
+            throw new Exception("Controller's methods not found");
         }
     }
 
@@ -44,8 +44,7 @@ public class CsController
 
         return default;
     }
-
-    //TODO: Если что-то из метода не удалось найти, то просто не учитываем его.
+    
     private void ParseTree(IParseTree parseTree)
     {
         for (var i = 0; i < parseTree.ChildCount; i++)

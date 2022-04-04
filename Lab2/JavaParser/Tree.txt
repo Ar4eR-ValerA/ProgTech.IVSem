@@ -1,0 +1,374 @@
+CompilationUnitContext
+    PackageDeclarationContext
+        TerminalNodeImpl  (package)
+        QualifiedNameContext
+            IdentifierContext
+                TerminalNodeImpl  (com)
+            TerminalNodeImpl  (.)
+            IdentifierContext
+                TerminalNodeImpl  (example)
+            TerminalNodeImpl  (.)
+            IdentifierContext
+                TerminalNodeImpl  (javamvc)
+        TerminalNodeImpl  (;)
+    ImportDeclarationContext
+        TerminalNodeImpl  (import)
+        QualifiedNameContext
+            IdentifierContext
+                TerminalNodeImpl  (Core)
+            TerminalNodeImpl  (.)
+            IdentifierContext
+                TerminalNodeImpl  (Customer)
+        TerminalNodeImpl  (;)
+    ImportDeclarationContext
+        TerminalNodeImpl  (import)
+        QualifiedNameContext
+            IdentifierContext
+                TerminalNodeImpl  (Core)
+            TerminalNodeImpl  (.)
+            IdentifierContext
+                TerminalNodeImpl  (CustomerService)
+        TerminalNodeImpl  (;)
+    ImportDeclarationContext
+        TerminalNodeImpl  (import)
+        QualifiedNameContext
+            IdentifierContext
+                TerminalNodeImpl  (org)
+            TerminalNodeImpl  (.)
+            IdentifierContext
+                TerminalNodeImpl  (springframework)
+            TerminalNodeImpl  (.)
+            IdentifierContext
+                TerminalNodeImpl  (boot)
+            TerminalNodeImpl  (.)
+            IdentifierContext
+                TerminalNodeImpl  (SpringApplication)
+        TerminalNodeImpl  (;)
+    ImportDeclarationContext
+        TerminalNodeImpl  (import)
+        QualifiedNameContext
+            IdentifierContext
+                TerminalNodeImpl  (org)
+            TerminalNodeImpl  (.)
+            IdentifierContext
+                TerminalNodeImpl  (springframework)
+            TerminalNodeImpl  (.)
+            IdentifierContext
+                TerminalNodeImpl  (boot)
+            TerminalNodeImpl  (.)
+            IdentifierContext
+                TerminalNodeImpl  (autoconfigure)
+            TerminalNodeImpl  (.)
+            IdentifierContext
+                TerminalNodeImpl  (SpringBootApplication)
+        TerminalNodeImpl  (;)
+    ImportDeclarationContext
+        TerminalNodeImpl  (import)
+        QualifiedNameContext
+            IdentifierContext
+                TerminalNodeImpl  (org)
+            TerminalNodeImpl  (.)
+            IdentifierContext
+                TerminalNodeImpl  (springframework)
+            TerminalNodeImpl  (.)
+            IdentifierContext
+                TerminalNodeImpl  (web)
+            TerminalNodeImpl  (.)
+            IdentifierContext
+                TerminalNodeImpl  (bind)
+            TerminalNodeImpl  (.)
+            IdentifierContext
+                TerminalNodeImpl  (annotation)
+        TerminalNodeImpl  (.)
+        TerminalNodeImpl  (*)
+        TerminalNodeImpl  (;)
+    ImportDeclarationContext
+        TerminalNodeImpl  (import)
+        QualifiedNameContext
+            IdentifierContext
+                TerminalNodeImpl  (java)
+            TerminalNodeImpl  (.)
+            IdentifierContext
+                TerminalNodeImpl  (util)
+            TerminalNodeImpl  (.)
+            IdentifierContext
+                TerminalNodeImpl  (ArrayList)
+        TerminalNodeImpl  (;)
+    TypeDeclarationContext
+        ClassOrInterfaceModifierContext
+            AnnotationContext
+                TerminalNodeImpl  (@)
+                QualifiedNameContext
+                    IdentifierContext
+                        TerminalNodeImpl  (RestController)
+        ClassOrInterfaceModifierContext
+            AnnotationContext
+                TerminalNodeImpl  (@)
+                QualifiedNameContext
+                    IdentifierContext
+                        TerminalNodeImpl  (SpringBootApplication)
+        ClassOrInterfaceModifierContext
+            TerminalNodeImpl  (public)
+        ClassDeclarationContext
+            TerminalNodeImpl  (class)
+            IdentifierContext
+                TerminalNodeImpl  (JavaMvcApplication)
+            ClassBodyContext
+                TerminalNodeImpl  ({)
+                ClassBodyDeclarationContext
+                    ModifierContext
+                        ClassOrInterfaceModifierContext
+                            TerminalNodeImpl  (private)
+                    ModifierContext
+                        ClassOrInterfaceModifierContext
+                            TerminalNodeImpl  (final)
+                    MemberDeclarationContext
+                        FieldDeclarationContext
+                            TypeTypeContext
+                                ClassOrInterfaceTypeContext
+                                    IdentifierContext
+                                        TerminalNodeImpl  (CustomerService)
+                            VariableDeclaratorsContext
+                                VariableDeclaratorContext
+                                    VariableDeclaratorIdContext
+                                        IdentifierContext
+                                            TerminalNodeImpl  (customerService)
+                            TerminalNodeImpl  (;)
+                ClassBodyDeclarationContext
+                    ModifierContext
+                        ClassOrInterfaceModifierContext
+                            TerminalNodeImpl  (public)
+                    ModifierContext
+                        ClassOrInterfaceModifierContext
+                            TerminalNodeImpl  (static)
+                    MemberDeclarationContext
+                        MethodDeclarationContext
+                            TypeTypeOrVoidContext
+                                TerminalNodeImpl  (void)
+                            IdentifierContext
+                                TerminalNodeImpl  (main)
+                            FormalParametersContext
+                                TerminalNodeImpl  (()
+                                FormalParameterListContext
+                                    FormalParameterContext
+                                        TypeTypeContext
+                                            ClassOrInterfaceTypeContext
+                                                IdentifierContext
+                                                    TerminalNodeImpl  (String)
+                                            TerminalNodeImpl  ([)
+                                            TerminalNodeImpl  (])
+                                        VariableDeclaratorIdContext
+                                            IdentifierContext
+                                                TerminalNodeImpl  (args)
+                                TerminalNodeImpl  ())
+                            MethodBodyContext
+                                BlockContext
+                                    TerminalNodeImpl  ({)
+                                    BlockStatementContext
+                                        StatementContext
+                                            ExpressionContext
+                                                ExpressionContext
+                                                    PrimaryContext
+                                                        IdentifierContext
+                                                            TerminalNodeImpl  (SpringApplication)
+                                                TerminalNodeImpl  (.)
+                                                MethodCallContext
+                                                    IdentifierContext
+                                                        TerminalNodeImpl  (run)
+                                                    TerminalNodeImpl  (()
+                                                    ExpressionListContext
+                                                        ExpressionContext
+                                                            PrimaryContext
+                                                                TypeTypeOrVoidContext
+                                                                    TypeTypeContext
+                                                                        ClassOrInterfaceTypeContext
+                                                                            IdentifierContext
+                                                                                TerminalNodeImpl  (JavaMvcApplication)
+                                                                TerminalNodeImpl  (.)
+                                                                TerminalNodeImpl  (class)
+                                                        TerminalNodeImpl  (,)
+                                                        ExpressionContext
+                                                            PrimaryContext
+                                                                IdentifierContext
+                                                                    TerminalNodeImpl  (args)
+                                                    TerminalNodeImpl  ())
+                                            TerminalNodeImpl  (;)
+                                    TerminalNodeImpl  (})
+                ClassBodyDeclarationContext
+                    ModifierContext
+                        ClassOrInterfaceModifierContext
+                            TerminalNodeImpl  (public)
+                    MemberDeclarationContext
+                        ConstructorDeclarationContext
+                            IdentifierContext
+                                TerminalNodeImpl  (JavaMvcApplication)
+                            FormalParametersContext
+                                TerminalNodeImpl  (()
+                                TerminalNodeImpl  ())
+                            BlockContext
+                                TerminalNodeImpl  ({)
+                                BlockStatementContext
+                                    StatementContext
+                                        ExpressionContext
+                                            ExpressionContext
+                                                PrimaryContext
+                                                    IdentifierContext
+                                                        TerminalNodeImpl  (customerService)
+                                            TerminalNodeImpl  (=)
+                                            ExpressionContext
+                                                TerminalNodeImpl  (new)
+                                                CreatorContext
+                                                    CreatedNameContext
+                                                        IdentifierContext
+                                                            TerminalNodeImpl  (CustomerService)
+                                                    ClassCreatorRestContext
+                                                        ArgumentsContext
+                                                            TerminalNodeImpl  (()
+                                                            TerminalNodeImpl  ())
+                                        TerminalNodeImpl  (;)
+                                TerminalNodeImpl  (})
+                ClassBodyDeclarationContext
+                    ModifierContext
+                        ClassOrInterfaceModifierContext
+                            AnnotationContext
+                                TerminalNodeImpl  (@)
+                                QualifiedNameContext
+                                    IdentifierContext
+                                        TerminalNodeImpl  (PostMapping)
+                                TerminalNodeImpl  (()
+                                ElementValueContext
+                                    ExpressionContext
+                                        PrimaryContext
+                                            LiteralContext
+                                                TerminalNodeImpl  ("/create")
+                                TerminalNodeImpl  ())
+                    ModifierContext
+                        ClassOrInterfaceModifierContext
+                            TerminalNodeImpl  (public)
+                    MemberDeclarationContext
+                        MethodDeclarationContext
+                            TypeTypeOrVoidContext
+                                TypeTypeContext
+                                    PrimitiveTypeContext
+                                        TerminalNodeImpl  (int)
+                            IdentifierContext
+                                TerminalNodeImpl  (create)
+                            FormalParametersContext
+                                TerminalNodeImpl  (()
+                                FormalParameterListContext
+                                    FormalParameterContext
+                                        TypeTypeContext
+                                            ClassOrInterfaceTypeContext
+                                                IdentifierContext
+                                                    TerminalNodeImpl  (String)
+                                        VariableDeclaratorIdContext
+                                            IdentifierContext
+                                                TerminalNodeImpl  (name)
+                                    TerminalNodeImpl  (,)
+                                    FormalParameterContext
+                                        TypeTypeContext
+                                            ClassOrInterfaceTypeContext
+                                                IdentifierContext
+                                                    TerminalNodeImpl  (String)
+                                        VariableDeclaratorIdContext
+                                            IdentifierContext
+                                                TerminalNodeImpl  (email)
+                                TerminalNodeImpl  ())
+                            MethodBodyContext
+                                BlockContext
+                                    TerminalNodeImpl  ({)
+                                    BlockStatementContext
+                                        StatementContext
+                                            TerminalNodeImpl  (return)
+                                            ExpressionContext
+                                                ExpressionContext
+                                                    PrimaryContext
+                                                        IdentifierContext
+                                                            TerminalNodeImpl  (customerService)
+                                                TerminalNodeImpl  (.)
+                                                MethodCallContext
+                                                    IdentifierContext
+                                                        TerminalNodeImpl  (add)
+                                                    TerminalNodeImpl  (()
+                                                    ExpressionListContext
+                                                        ExpressionContext
+                                                            TerminalNodeImpl  (new)
+                                                            CreatorContext
+                                                                CreatedNameContext
+                                                                    IdentifierContext
+                                                                        TerminalNodeImpl  (Customer)
+                                                                ClassCreatorRestContext
+                                                                    ArgumentsContext
+                                                                        TerminalNodeImpl  (()
+                                                                        ExpressionListContext
+                                                                            ExpressionContext
+                                                                                PrimaryContext
+                                                                                    IdentifierContext
+                                                                                        TerminalNodeImpl  (name)
+                                                                            TerminalNodeImpl  (,)
+                                                                            ExpressionContext
+                                                                                PrimaryContext
+                                                                                    IdentifierContext
+                                                                                        TerminalNodeImpl  (email)
+                                                                        TerminalNodeImpl  ())
+                                                    TerminalNodeImpl  ())
+                                            TerminalNodeImpl  (;)
+                                    TerminalNodeImpl  (})
+                ClassBodyDeclarationContext
+                    ModifierContext
+                        ClassOrInterfaceModifierContext
+                            AnnotationContext
+                                TerminalNodeImpl  (@)
+                                QualifiedNameContext
+                                    IdentifierContext
+                                        TerminalNodeImpl  (GetMapping)
+                                TerminalNodeImpl  (()
+                                ElementValueContext
+                                    ExpressionContext
+                                        PrimaryContext
+                                            LiteralContext
+                                                TerminalNodeImpl  ("/getAll")
+                                TerminalNodeImpl  ())
+                    ModifierContext
+                        ClassOrInterfaceModifierContext
+                            TerminalNodeImpl  (public)
+                    MemberDeclarationContext
+                        MethodDeclarationContext
+                            TypeTypeOrVoidContext
+                                TypeTypeContext
+                                    ClassOrInterfaceTypeContext
+                                        IdentifierContext
+                                            TerminalNodeImpl  (ArrayList)
+                                        TypeArgumentsContext
+                                            TerminalNodeImpl  (<)
+                                            TypeArgumentContext
+                                                TypeTypeContext
+                                                    ClassOrInterfaceTypeContext
+                                                        IdentifierContext
+                                                            TerminalNodeImpl  (Customer)
+                                            TerminalNodeImpl  (>)
+                            IdentifierContext
+                                TerminalNodeImpl  (getAll)
+                            FormalParametersContext
+                                TerminalNodeImpl  (()
+                                TerminalNodeImpl  ())
+                            MethodBodyContext
+                                BlockContext
+                                    TerminalNodeImpl  ({)
+                                    BlockStatementContext
+                                        StatementContext
+                                            TerminalNodeImpl  (return)
+                                            ExpressionContext
+                                                ExpressionContext
+                                                    PrimaryContext
+                                                        IdentifierContext
+                                                            TerminalNodeImpl  (customerService)
+                                                TerminalNodeImpl  (.)
+                                                MethodCallContext
+                                                    IdentifierContext
+                                                        TerminalNodeImpl  (getAll)
+                                                    TerminalNodeImpl  (()
+                                                    TerminalNodeImpl  ())
+                                            TerminalNodeImpl  (;)
+                                    TerminalNodeImpl  (})
+                TerminalNodeImpl  (})

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
-//http://localhost:8080/create?name=Human
+//http://localhost:8080/create
 //http://localhost:8080/getAll
 @RestController
 @SpringBootApplication

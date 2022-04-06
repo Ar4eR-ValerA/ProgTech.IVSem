@@ -15,10 +15,31 @@ var walker = new ParseTreeWalker();
 
 walker.Walk(listener, parser.compilationUnit());
 
-JavaParser.CompilationUnitContext tree = listener.Tree;
-var csController = new CsController(tree);
+JavaParser.CompilationUnitContext controllerTree = listener.Tree;
+var dtoTrees = new List<JavaParser.CompilationUnitContext>();
+var graphVisualizer = new GraphVisualizer();
+foreach (var file in
+         Directory.GetFiles(@$"D:\Projects\Tech.Ar4eR-ValerA\Lab2\JavaMVC\src\main\java\com\example\javamvc\dtos"))
+{
+    text = File.ReadAllText(file);
+    stream = CharStreams.fromString(text);
+    lexer = new JavaLexer(stream);
+    tokens = new CommonTokenStream(lexer);
+    parser = new JavaParser(tokens);
+
+    listener = new MyJavaParserListener();
+    walker = new ParseTreeWalker();
+
+    walker.Walk(listener, parser.compilationUnit());
+
+    dtoTrees.Add(listener.Tree);
+    graphVisualizer.Visualize(
+        listener.Tree,
+        @$"D:\Projects\Tech.Ar4eR-ValerA\Lab2\JavaParser\{file.Split("\\").Last()}.txt");
+}
+
+var csController = new CsController(controllerTree, dtoTrees);
 
 Console.WriteLine();
 
-//GraphVisualizer graphVisualizer = new GraphVisualizer();
-//graphVisualizer.Visualize(tree, @$"D:\Projects\Tech.Ar4eR-ValerA\Lab2\JavaParser\Tree.txt");
+graphVisualizer.Visualize(controllerTree, @$"D:\Projects\Tech.Ar4eR-ValerA\Lab2\JavaParser\Tree.txt");

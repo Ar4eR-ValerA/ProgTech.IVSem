@@ -42,7 +42,7 @@ public class CsMethod
             IsValid = false;
         }
 
-        if (ReturningType is null)
+        if (ReturningType is null)  
         {
             IsValid = false;
         }

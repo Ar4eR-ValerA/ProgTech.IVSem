@@ -5,17 +5,21 @@ namespace AntlrExample.UsableTreeModels;
 public class CsController
 {
     private List<CsMethod> _methods;
+    private List<CsDto> _dtos;
 
-    public CsController(JavaParser.CompilationUnitContext parseTree)
+    public CsController(
+        JavaParser.CompilationUnitContext controllerParseTree,
+        List<JavaParser.CompilationUnitContext> dtoParseTrees)
     {
         _methods = new List<CsMethod>();
-        ParseTree(parseTree);
+        ParseTree(controllerParseTree);
 
         ValidateAndThrow();
     }
 
     public string Name { get; private set; }
     public IReadOnlyList<CsMethod> Methods => _methods;
+    public IReadOnlyCollection<CsDto> Dtos => _dtos;
 
     private void ValidateAndThrow()
     {
@@ -44,7 +48,7 @@ public class CsController
 
         return default;
     }
-    
+
     private void ParseTree(IParseTree parseTree)
     {
         for (var i = 0; i < parseTree.ChildCount; i++)

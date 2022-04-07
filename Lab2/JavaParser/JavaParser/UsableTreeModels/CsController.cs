@@ -14,6 +14,12 @@ public class CsController
         _methods = new List<CsMethod>();
         ParseTree(controllerParseTree);
 
+        _dtos = new List<CsDto>();
+        foreach (var dtoParseTree in dtoParseTrees)
+        {
+            _dtos.Add(new CsDto(dtoParseTree));
+        }
+
         ValidateAndThrow();
     }
 
@@ -32,21 +38,6 @@ public class CsController
         {
             throw new Exception("Controller's methods not found");
         }
-    }
-
-    private T SteppedDownContext<T>(IParseTree parseTree) where T : IParseTree
-    {
-        for (var i = 0; i < parseTree.ChildCount; i++)
-        {
-            var child = parseTree.GetChild(i);
-
-            if (child is T childT)
-            {
-                return childT;
-            }
-        }
-
-        return default;
     }
 
     private void ParseTree(IParseTree parseTree)
@@ -75,7 +66,7 @@ public class CsController
 
     private void ParseClassDeclaration(JavaParser.ClassDeclarationContext parseTree)
     {
-        var child = SteppedDownContext<JavaParser.IdentifierContext>(parseTree);
+        var child = Tools.SteppedDownContext<JavaParser.IdentifierContext>(parseTree);
         Name = child?.GetText();
     }
 

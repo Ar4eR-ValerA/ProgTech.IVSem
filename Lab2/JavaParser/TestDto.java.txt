@@ -1,0 +1,195 @@
+CompilationUnitContext
+    PackageDeclarationContext
+        TerminalNodeImpl  (package)
+        QualifiedNameContext
+            IdentifierContext
+                TerminalNodeImpl  (com)
+            TerminalNodeImpl  (.)
+            IdentifierContext
+                TerminalNodeImpl  (example)
+            TerminalNodeImpl  (.)
+            IdentifierContext
+                TerminalNodeImpl  (javamvc)
+            TerminalNodeImpl  (.)
+            IdentifierContext
+                TerminalNodeImpl  (dtos)
+        TerminalNodeImpl  (;)
+    ImportDeclarationContext
+        TerminalNodeImpl  (import)
+        QualifiedNameContext
+            IdentifierContext
+                TerminalNodeImpl  (java)
+            TerminalNodeImpl  (.)
+            IdentifierContext
+                TerminalNodeImpl  (util)
+            TerminalNodeImpl  (.)
+            IdentifierContext
+                TerminalNodeImpl  (ArrayList)
+        TerminalNodeImpl  (;)
+    TypeDeclarationContext
+        ClassOrInterfaceModifierContext
+            TerminalNodeImpl  (public)
+        ClassDeclarationContext
+            TerminalNodeImpl  (class)
+            IdentifierContext
+                TerminalNodeImpl  (TestDto)
+            ClassBodyContext
+                TerminalNodeImpl  ({)
+                ClassBodyDeclarationContext
+                    ModifierContext
+                        ClassOrInterfaceModifierContext
+                            TerminalNodeImpl  (private)
+                    MemberDeclarationContext
+                        FieldDeclarationContext
+                            TypeTypeContext
+                                ClassOrInterfaceTypeContext
+                                    IdentifierContext
+                                        TerminalNodeImpl  (ArrayList)
+                                    TypeArgumentsContext
+                                        TerminalNodeImpl  (<)
+                                        TypeArgumentContext
+                                            TypeTypeContext
+                                                ClassOrInterfaceTypeContext
+                                                    IdentifierContext
+                                                        TerminalNodeImpl  (String)
+                                        TerminalNodeImpl  (>)
+                            VariableDeclaratorsContext
+                                VariableDeclaratorContext
+                                    VariableDeclaratorIdContext
+                                        IdentifierContext
+                                            TerminalNodeImpl  (stringArray)
+                            TerminalNodeImpl  (;)
+                ClassBodyDeclarationContext
+                    ModifierContext
+                        ClassOrInterfaceModifierContext
+                            TerminalNodeImpl  (public)
+                    MemberDeclarationContext
+                        ConstructorDeclarationContext
+                            IdentifierContext
+                                TerminalNodeImpl  (TestDto)
+                            FormalParametersContext
+                                TerminalNodeImpl  (()
+                                FormalParameterListContext
+                                    FormalParameterContext
+                                        TypeTypeContext
+                                            ClassOrInterfaceTypeContext
+                                                IdentifierContext
+                                                    TerminalNodeImpl  (ArrayList)
+                                                TypeArgumentsContext
+                                                    TerminalNodeImpl  (<)
+                                                    TypeArgumentContext
+                                                        TypeTypeContext
+                                                            ClassOrInterfaceTypeContext
+                                                                IdentifierContext
+                                                                    TerminalNodeImpl  (String)
+                                                    TerminalNodeImpl  (>)
+                                        VariableDeclaratorIdContext
+                                            IdentifierContext
+                                                TerminalNodeImpl  (stringArray)
+                                TerminalNodeImpl  ())
+                            BlockContext
+                                TerminalNodeImpl  ({)
+                                BlockStatementContext
+                                    StatementContext
+                                        ExpressionContext
+                                            ExpressionContext
+                                                ExpressionContext
+                                                    PrimaryContext
+                                                        TerminalNodeImpl  (this)
+                                                TerminalNodeImpl  (.)
+                                                IdentifierContext
+                                                    TerminalNodeImpl  (stringArray)
+                                            TerminalNodeImpl  (=)
+                                            ExpressionContext
+                                                PrimaryContext
+                                                    IdentifierContext
+                                                        TerminalNodeImpl  (stringArray)
+                                        TerminalNodeImpl  (;)
+                                TerminalNodeImpl  (})
+                ClassBodyDeclarationContext
+                    ModifierContext
+                        ClassOrInterfaceModifierContext
+                            TerminalNodeImpl  (public)
+                    MemberDeclarationContext
+                        MethodDeclarationContext
+                            TypeTypeOrVoidContext
+                                TypeTypeContext
+                                    ClassOrInterfaceTypeContext
+                                        IdentifierContext
+                                            TerminalNodeImpl  (ArrayList)
+                                        TypeArgumentsContext
+                                            TerminalNodeImpl  (<)
+                                            TypeArgumentContext
+                                                TypeTypeContext
+                                                    ClassOrInterfaceTypeContext
+                                                        IdentifierContext
+                                                            TerminalNodeImpl  (String)
+                                            TerminalNodeImpl  (>)
+                            IdentifierContext
+                                TerminalNodeImpl  (getStringArray)
+                            FormalParametersContext
+                                TerminalNodeImpl  (()
+                                TerminalNodeImpl  ())
+                            MethodBodyContext
+                                BlockContext
+                                    TerminalNodeImpl  ({)
+                                    BlockStatementContext
+                                        StatementContext
+                                            TerminalNodeImpl  (return)
+                                            ExpressionContext
+                                                PrimaryContext
+                                                    IdentifierContext
+                                                        TerminalNodeImpl  (stringArray)
+                                            TerminalNodeImpl  (;)
+                                    TerminalNodeImpl  (})
+                ClassBodyDeclarationContext
+                    ModifierContext
+                        ClassOrInterfaceModifierContext
+                            TerminalNodeImpl  (public)
+                    MemberDeclarationContext
+                        MethodDeclarationContext
+                            TypeTypeOrVoidContext
+                                TerminalNodeImpl  (void)
+                            IdentifierContext
+                                TerminalNodeImpl  (setStringArray)
+                            FormalParametersContext
+                                TerminalNodeImpl  (()
+                                FormalParameterListContext
+                                    FormalParameterContext
+                                        TypeTypeContext
+                                            ClassOrInterfaceTypeContext
+                                                IdentifierContext
+                                                    TerminalNodeImpl  (ArrayList)
+                                                TypeArgumentsContext
+                                                    TerminalNodeImpl  (<)
+                                                    TypeArgumentContext
+                                                        TypeTypeContext
+                                                            ClassOrInterfaceTypeContext
+                                                                IdentifierContext
+                                                                    TerminalNodeImpl  (String)
+                                                    TerminalNodeImpl  (>)
+                                        VariableDeclaratorIdContext
+                                            IdentifierContext
+                                                TerminalNodeImpl  (stringArray)
+                                TerminalNodeImpl  ())
+                            MethodBodyContext
+                                BlockContext
+                                    TerminalNodeImpl  ({)
+                                    BlockStatementContext
+                                        StatementContext
+                                            ExpressionContext
+                                                ExpressionContext
+                                                    ExpressionContext
+                                                        PrimaryContext
+                                                            TerminalNodeImpl  (this)
+                                                    TerminalNodeImpl  (.)
+                                                    IdentifierContext
+                                                        TerminalNodeImpl  (stringArray)
+                                                TerminalNodeImpl  (=)
+                                                ExpressionContext
+                                                    PrimaryContext
+                                                        IdentifierContext
+                                                            TerminalNodeImpl  (stringArray)
+                                            TerminalNodeImpl  (;)
+                                    TerminalNodeImpl  (})
+                TerminalNodeImpl  (})

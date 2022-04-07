@@ -48,55 +48,13 @@ public class CsMethod
         }
     }
 
-    private T SteppedDownContext<T>(IParseTree parseTree) where T : IParseTree
-    {
-        if (parseTree is null)
-        {
-            return default;
-        }
-
-        for (var i = 0; i < parseTree.ChildCount; i++)
-        {
-            var child = parseTree.GetChild(i);
-
-            if (child is T childT)
-            {
-                return childT;
-            }
-        }
-
-        return default;
-    }
-
-    private IReadOnlyList<T> SteppedDownContexts<T>(IParseTree parseTree) where T : IParseTree
-    {
-        var contexts = new List<T>();
-
-        if (parseTree is null)
-        {
-            return contexts;
-        }
-
-        for (var i = 0; i < parseTree.ChildCount; i++)
-        {
-            var child = parseTree.GetChild(i);
-
-            if (child is T childT)
-            {
-                contexts.Add(childT);
-            }
-        }
-
-        return contexts;
-    }
-
     private void ParseDeclaration(JavaParser.ClassBodyDeclarationContext parseTree)
     {
-        var modifiers = SteppedDownContexts<JavaParser.ModifierContext>(parseTree);
+        var modifiers = Tools.SteppedDownContexts<JavaParser.ModifierContext>(parseTree);
         ParseAttributes(modifiers);
 
-        var memberDeclaration = SteppedDownContext<JavaParser.MemberDeclarationContext>(parseTree);
-        var methodDeclaration = SteppedDownContext<JavaParser.MethodDeclarationContext>(memberDeclaration);
+        var memberDeclaration = Tools.SteppedDownContext<JavaParser.MemberDeclarationContext>(parseTree);
+        var methodDeclaration = Tools.SteppedDownContext<JavaParser.MethodDeclarationContext>(memberDeclaration);
 
         ParseName(methodDeclaration);
         if (Name is null)
@@ -117,9 +75,9 @@ public class CsMethod
     {
         foreach (var parseTree in parseTrees)
         {
-            var classModifier = SteppedDownContext<JavaParser.ClassOrInterfaceModifierContext>(parseTree);
-            var annotation = SteppedDownContext<JavaParser.AnnotationContext>(classModifier);
-            var qualifiedName = SteppedDownContext<JavaParser.QualifiedNameContext>(annotation);
+            var classModifier = Tools.SteppedDownContext<JavaParser.ClassOrInterfaceModifierContext>(parseTree);
+            var annotation = Tools.SteppedDownContext<JavaParser.AnnotationContext>(classModifier);
+            var qualifiedName = Tools.SteppedDownContext<JavaParser.QualifiedNameContext>(annotation);
             var attributeName = qualifiedName?.GetText();
 
             if (string.IsNullOrEmpty(attributeName))
@@ -127,7 +85,7 @@ public class CsMethod
                 continue;
             }
 
-            var elementValue = SteppedDownContext<JavaParser.ElementValueContext>(annotation);
+            var elementValue = Tools.SteppedDownContext<JavaParser.ElementValueContext>(annotation);
             var attributeArg = elementValue?.GetText();
 
             if (string.IsNullOrEmpty(attributeArg))
@@ -143,27 +101,27 @@ public class CsMethod
 
     private void ParseName(JavaParser.MethodDeclarationContext parseTree)
     {
-        Name = SteppedDownContext<JavaParser.IdentifierContext>(parseTree)?.GetText();
+        Name = Tools.SteppedDownContext<JavaParser.IdentifierContext>(parseTree)?.GetText();
     }
 
     private void ParseReturningType(JavaParser.MethodDeclarationContext parseTree)
     {
-        var typeTypeOrVoid = SteppedDownContext<JavaParser.TypeTypeOrVoidContext>(parseTree);
-        var typeType = SteppedDownContext<JavaParser.TypeTypeContext>(typeTypeOrVoid);
+        var typeTypeOrVoid = Tools.SteppedDownContext<JavaParser.TypeTypeOrVoidContext>(parseTree);
+        var typeType = Tools.SteppedDownContext<JavaParser.TypeTypeContext>(typeTypeOrVoid);
         ReturningType = typeType?.GetText();
     }
 
     private void ParseArguments(JavaParser.MethodDeclarationContext parseTree)
     {
-        var formalParameters = SteppedDownContext<JavaParser.FormalParametersContext>(parseTree);
-        var formalParameterList = SteppedDownContext<JavaParser.FormalParameterListContext>(formalParameters);
+        var formalParameters = Tools.SteppedDownContext<JavaParser.FormalParametersContext>(parseTree);
+        var formalParameterList = Tools.SteppedDownContext<JavaParser.FormalParameterListContext>(formalParameters);
 
         if (formalParameterList is not null)
         {
             foreach (var formalParameter in formalParameterList.children)
             {
-                var type = SteppedDownContext<JavaParser.TypeTypeContext>(formalParameter).GetText();
-                var name = SteppedDownContext<JavaParser.VariableDeclaratorIdContext>(formalParameter).GetText();
+                var type = Tools.SteppedDownContext<JavaParser.TypeTypeContext>(formalParameter).GetText();
+                var name = Tools.SteppedDownContext<JavaParser.VariableDeclaratorIdContext>(formalParameter).GetText();
 
                 _args.Add(new Pair<string, string>(type, name));
             }

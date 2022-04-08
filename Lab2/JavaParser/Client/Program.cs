@@ -1,5 +1,7 @@
 ﻿using Client;
 
-var requester = new Requester();
-await requester.Post();
-await requester.Get();
+//var requester = new Requester();
+//await requester.Post();
+//await requester.Get();
+
+Console.WriteLine();

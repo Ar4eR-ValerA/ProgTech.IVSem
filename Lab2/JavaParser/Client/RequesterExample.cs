@@ -1,15 +1,10 @@
-﻿using System.Collections.Specialized;
-using System.Text;
-using System.Text.Json;
-using System.Web;
+﻿namespace Client;
 
-namespace Client;
-
-public class Requester
+public class RequesterExample
 {
     private static HttpClient _client;
 
-    public Requester()
+    public RequesterExample()
     {
         _client = new HttpClient();
     }
@@ -32,9 +27,9 @@ public class Requester
     }
 }
 
-class CustomerCreateDto
+class CustomerCreateExample
 {
-    public CustomerCreateDto(string name, string email)
+    public CustomerCreateExample(string name, string email)
     {
         this.name = name;
         this.email = email;

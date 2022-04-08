@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaParser", "JavaParser\Ja
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{97E4F137-CE53-43D0-BFD5-AFDBC6E41BA4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientGen", "ClientGen\ClientGen.csproj", "{EFF76DE0-FB5E-4F7A-A88E-AEE839CBE9ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{97E4F137-CE53-43D0-BFD5-AFDBC6E41BA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97E4F137-CE53-43D0-BFD5-AFDBC6E41BA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97E4F137-CE53-43D0-BFD5-AFDBC6E41BA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFF76DE0-FB5E-4F7A-A88E-AEE839CBE9ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFF76DE0-FB5E-4F7A-A88E-AEE839CBE9ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFF76DE0-FB5E-4F7A-A88E-AEE839CBE9ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFF76DE0-FB5E-4F7A-A88E-AEE839CBE9ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

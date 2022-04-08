@@ -4,17 +4,32 @@ namespace ClientGen;
 
 public static class TypeMapper
 {
-    public static string MapType(string type)
+    private static string FindKeywords(string type)
     {
         return type switch
         {
-            "String" => "string",
-            _ => MapComplicatedType(type)
+            "ArrayList" => "List",
+            _ => type
         };
     }
 
-    private static string MapComplicatedType(string type)
+    public static string MapType(string type)
     {
-        return "int";
+        var complicatedType = type.Split('[', ']', '<', '>').Where(s => s != "").ToArray();
+
+        if (complicatedType.Length == 1 && complicatedType.Last() == "]")
+        {
+            return $"{FindKeywords(complicatedType.First())}[]";
+        }
+        
+        if (complicatedType.Length == 1)
+        {
+            return FindKeywords(type);
+        }
+
+        var otherType = type.Remove(0, complicatedType.First().Length);
+        otherType = otherType.Remove(otherType.Length - 1, 1).Remove(0, 1);
+
+        return $"{FindKeywords(complicatedType.First())}<{MapType(otherType)}>";
     }
 }

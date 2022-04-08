@@ -1,13 +1,13 @@
 namespace Client;
 class CustomerCreateDto
 {
-    public CustomerCreateDto(string name, string email)
+    public CustomerCreateDto(String name, String email)
     {
         this.name = name;
         this.email = email;
     }
 
-    public string name { get; set; }
+    public String name { get; set; }
 
-    public string email { get; set; }
+    public String email { get; set; }
 }

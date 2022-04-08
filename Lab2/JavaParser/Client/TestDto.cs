@@ -1,10 +1,10 @@
 namespace Client;
 class TestDto
 {
-    public TestDto(int stringArray)
+    public TestDto(List<String> stringArray)
     {
         this.stringArray = stringArray;
     }
 
-    public int stringArray { get; set; }
+    public List<String> stringArray { get; set; }
 }

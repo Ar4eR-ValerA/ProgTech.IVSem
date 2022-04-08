@@ -1,7 +1,7 @@
 namespace Client;
 class CustomerGetDto
 {
-    public CustomerGetDto(int id, string name, string email)
+    public CustomerGetDto(int id, String name, String email)
     {
         this.id = id;
         this.name = name;
@@ -10,7 +10,7 @@ class CustomerGetDto
 
     public int id { get; set; }
 
-    public string name { get; set; }
+    public String name { get; set; }
 
-    public string email { get; set; }
+    public String email { get; set; }
 }

@@ -93,21 +93,10 @@ public class MethodGenerator
                                                             SyntaxKind.SimpleMemberAccessExpression,
                                                             IdentifierName("_client"),
                                                             IdentifierName(GetRestMethod())))
-                                                    //TODO: Если Get, то без контента.
-                                                    //TODO: Починить работу с дтошками.
                                                     .WithArgumentList(
                                                         ArgumentList(
                                                             SeparatedList<ArgumentSyntax>(
-                                                                new SyntaxNodeOrToken[]
-                                                                {
-                                                                    Argument(
-                                                                        LiteralExpression(
-                                                                            SyntaxKind.StringLiteralExpression,
-                                                                            Literal(GetRoute()))),
-                                                                    Token(SyntaxKind.CommaToken),
-                                                                    Argument(
-                                                                        IdentifierName("content"))
-                                                                }))))))))),
+                                                                GetRequestArgs()))))))))),
                 LocalDeclarationStatement(
                     VariableDeclaration(
                             IdentifierName(
@@ -172,6 +161,32 @@ public class MethodGenerator
         };
     }
 
+    private SyntaxNodeOrToken[] GetRequestArgs()
+    {
+        if (CsMethod.RestVerb != "Get")
+        {
+
+            return new SyntaxNodeOrToken[]
+            {
+                Argument(
+                    LiteralExpression(
+                        SyntaxKind.StringLiteralExpression,
+                        Literal(GetRoute()))),
+                Token(SyntaxKind.CommaToken),
+                Argument(
+                    IdentifierName("content"))
+            };
+        }
+        
+        return new SyntaxNodeOrToken[]
+            {
+                Argument(
+                    LiteralExpression(
+                        SyntaxKind.StringLiteralExpression,
+                        Literal(GetRoute())))
+            };
+    }
+
     private List<InterpolatedStringContentSyntax> GetQueryArgs()
     {
         var args = new List<InterpolatedStringContentSyntax>();
@@ -231,12 +246,18 @@ public class MethodGenerator
                                 Identifier("content"))
                             .WithInitializer(
                                 EqualsValueClause(
-                                    ObjectCreationExpression(
-                                            IdentifierName("MultipartFormDataContent"))
+                                    InvocationExpression(
+                                            MemberAccessExpression(
+                                                SyntaxKind.SimpleMemberAccessExpression,
+                                                IdentifierName("JsonContent"),
+                                                IdentifierName("Create")))
                                         .WithArgumentList(
-                                            ArgumentList())))))));
+                                            ArgumentList(
+                                                SingletonSeparatedList<ArgumentSyntax>(
+                                                    Argument(
+                                                        IdentifierName(CsMethod.Args[0].Name)))))))))));
 
-        foreach (var arg in CsMethod.Args)
+        /*foreach (var arg in CsMethod.Args)
         {
             statementSyntaxes.Add(ExpressionStatement(
                 InvocationExpression(
@@ -266,7 +287,7 @@ public class MethodGenerator
                                             SyntaxKind.StringLiteralExpression,
                                             Literal(arg.Name)))
                                 })))));
-        }
+        }*/
 
         return statementSyntaxes.ToArray();
     }

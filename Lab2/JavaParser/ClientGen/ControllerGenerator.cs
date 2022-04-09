@@ -24,31 +24,44 @@ public class ControllerGenerator
         DtosGenerator.Generate(path);
 
         var compilationUnitSyntax =
-            CompilationUnit().WithUsings(
-                SingletonList<UsingDirectiveSyntax>(
-                    UsingDirective(
-                        QualifiedName(
-                            QualifiedName(
-                                IdentifierName("System"),
-                                IdentifierName("Text")),
-                            IdentifierName("Json"))))).WithMembers(SingletonList<MemberDeclarationSyntax>(
-                FileScopedNamespaceDeclaration(
-                        IdentifierName("Client"))
-                    .WithMembers(
-                        SingletonList<MemberDeclarationSyntax>(
-                            ClassDeclaration(CsController.Name)
-                                .WithModifiers(
-                                    TokenList(
-                                        Token(SyntaxKind.PublicKeyword)))
-                                .WithMembers(
-                                    List<MemberDeclarationSyntax>(
-                                        new MemberDeclarationSyntax[]
-                                        {
-                                            GetHttpClientField(),
-                                            new MethodGenerator(CsController.Methods[0], Url).Generate(),
-                                            new MethodGenerator(CsController.Methods[1], Url).Generate()
-                                        }))))))
-                                .NormalizeWhitespace();
+            CompilationUnit()
+                .WithUsings(
+                    List<UsingDirectiveSyntax>(
+                        new UsingDirectiveSyntax[]
+                        {
+                            UsingDirective(
+                                QualifiedName(
+                                    QualifiedName(
+                                        QualifiedName(
+                                            IdentifierName("System"),
+                                            IdentifierName("Net")),
+                                        IdentifierName("Http")),
+                                    IdentifierName("Json"))),
+                            UsingDirective(
+                                QualifiedName(
+                                    QualifiedName(
+                                        IdentifierName("System"),
+                                        IdentifierName("Text")),
+                                    IdentifierName("Json")))
+                        }))
+                .WithMembers(SingletonList<MemberDeclarationSyntax>(
+                    FileScopedNamespaceDeclaration(
+                            IdentifierName("Client"))
+                        .WithMembers(
+                            SingletonList<MemberDeclarationSyntax>(
+                                ClassDeclaration(CsController.Name)
+                                    .WithModifiers(
+                                        TokenList(
+                                            Token(SyntaxKind.PublicKeyword)))
+                                    .WithMembers(
+                                        List<MemberDeclarationSyntax>(
+                                            new MemberDeclarationSyntax[]
+                                            {
+                                                GetHttpClientField(),
+                                                new MethodGenerator(CsController.Methods[0], Url).Generate(),
+                                                new MethodGenerator(CsController.Methods[1], Url).Generate()
+                                            }))))))
+                .NormalizeWhitespace();
 
         File.WriteAllText(@$"{path}\{CsController.Name}Client.cs", compilationUnitSyntax.ToString());
     }

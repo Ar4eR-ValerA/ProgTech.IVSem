@@ -1,7 +1,7 @@
 ﻿using Client;
 
-//var requester = new Requester();
-//await requester.Post();
-//await requester.Get();
+var requester = new RequesterExample();
+await requester.Post1(new CustomerCreateDto("dsa", "vsa"));
+await requester.Get();
 
 Console.WriteLine();

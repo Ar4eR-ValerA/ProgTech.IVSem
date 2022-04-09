@@ -1,4 +1,5 @@
-﻿namespace Client;
+﻿using System.Net.Http.Json;
+namespace Client;
 
 public class RequesterExample
 {
@@ -11,9 +12,7 @@ public class RequesterExample
 
     public async Task Post1(CustomerCreateDto customerCreateDto)
     {
-        var content = new MultipartFormDataContent();
-        content.Add(new StringContent(customerCreateDto.name), "name");
-        content.Add(new StringContent(customerCreateDto.email), "email");
+        var content = JsonContent.Create(customerCreateDto);
 
         var response = await _client.PostAsync("http://localhost:8080/create", content);
         var responseString = await response.Content.ReadAsStringAsync();

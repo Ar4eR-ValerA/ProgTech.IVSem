@@ -6,18 +6,18 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace ClientGen;
 
-public class DtosGeneration
+public class DtosGenerator
 {
     private List<CsDto> _csDtos;
 
-    public DtosGeneration(List<CsDto> csDtos)
+    public DtosGenerator(List<CsDto> csDtos)
     {
         _csDtos = csDtos;
     }
 
     public IReadOnlyList<CsDto> CsDtos => _csDtos;
-    
-    public void GenerateDtos(string path)
+
+    public void Generate(string path)
     {
         foreach (var dto in CsDtos)
         {
@@ -29,6 +29,9 @@ public class DtosGeneration
                             .WithMembers(
                                 SingletonList<MemberDeclarationSyntax>(
                                     ClassDeclaration(dto.Name)
+                                        .WithModifiers(
+                                            TokenList(
+                                                Token(SyntaxKind.PublicKeyword)))
                                         .WithMembers(
                                             List<MemberDeclarationSyntax>(
                                                 new MemberDeclarationSyntax[]

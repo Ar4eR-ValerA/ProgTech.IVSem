@@ -38,5 +38,5 @@ foreach (var file in
 
 var csController = new CsController(controllerTree, dtoTrees);
 
-var generationService = new ControllerGeneration(csController);
-generationService.GenerateController(@"D:\Projects\Tech.Ar4eR-ValerA\Lab2\JavaParser\Client");
+var generationService = new ControllerGenerator(csController, "http://localhost:8080/");
+generationService.Generate(@"D:\Projects\Tech.Ar4eR-ValerA\Lab2\JavaParser\Client");

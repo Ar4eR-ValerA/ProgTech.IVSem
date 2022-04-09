@@ -1,16 +1,15 @@
 ﻿using Antlr4.Runtime.Misc;
-using Antlr4.Runtime.Tree;
 
 namespace AntlrExample.UsableTreeModels;
 
 public class CsMethod
 {
-    private List<Pair<string, string>> _args;
+    private List<CsField> _args;
 
     public CsMethod(JavaParser.ClassBodyDeclarationContext parseTree)
     {
         IsValid = true;
-        _args = new List<Pair<string, string>>();
+        _args = new List<CsField>();
 
         ParseDeclaration(parseTree);
 
@@ -20,10 +19,10 @@ public class CsMethod
     public string Name { get; private set; }
     public string Route { get; private set; }
     public string RestVerb { get; private set; }
-    public string ReturningType { get; private set; }
+    public string ReturnType { get; private set; }
     public bool IsValid { get; set; }
 
-    public IReadOnlyList<Pair<string, string>> Args => _args;
+    public IReadOnlyList<CsField> Args => _args;
 
     private void Validate()
     {
@@ -42,7 +41,7 @@ public class CsMethod
             IsValid = false;
         }
 
-        if (ReturningType is null)  
+        if (ReturnType is null)  
         {
             IsValid = false;
         }
@@ -63,7 +62,7 @@ public class CsMethod
         }
 
         ParseReturningType(methodDeclaration);
-        if (ReturningType is null)
+        if (ReturnType is null)
         {
             return;
         }
@@ -94,7 +93,7 @@ public class CsMethod
             }
 
             RestVerb = attributeName.Remove(attributeName.Length - 7, 7);
-            Route = attributeArg.Trim('"');
+            Route = attributeArg.Trim('"').Remove(0, 1);
             break;
         }
     }
@@ -108,7 +107,7 @@ public class CsMethod
     {
         var typeTypeOrVoid = Tools.SteppedDownContext<JavaParser.TypeTypeOrVoidContext>(parseTree);
         var typeType = Tools.SteppedDownContext<JavaParser.TypeTypeContext>(typeTypeOrVoid);
-        ReturningType = typeType?.GetText();
+        ReturnType = typeType?.GetText();
     }
 
     private void ParseArguments(JavaParser.MethodDeclarationContext parseTree)
@@ -123,7 +122,7 @@ public class CsMethod
                 var type = Tools.SteppedDownContext<JavaParser.TypeTypeContext>(formalParameter).GetText();
                 var name = Tools.SteppedDownContext<JavaParser.VariableDeclaratorIdContext>(formalParameter).GetText();
 
-                _args.Add(new Pair<string, string>(type, name));
+                _args.Add(new CsField(type, name));
             }
         }
     }

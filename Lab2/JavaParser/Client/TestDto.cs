@@ -1,5 +1,5 @@
 namespace Client;
-class TestDto
+public class TestDto
 {
     public TestDto(List<String> stringArray)
     {

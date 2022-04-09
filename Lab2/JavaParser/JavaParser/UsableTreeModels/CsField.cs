@@ -12,4 +12,10 @@ public class CsField
         Name = Tools.SteppedDownContext<JavaParser.VariableDeclaratorsContext>(parseTree).GetText();
         Type = Tools.SteppedDownContext<JavaParser.TypeTypeContext>(parseTree).GetText();
     }
+
+    public CsField(string type, string name)
+    {
+        Type = type;
+        Name = name;
+    }
 }

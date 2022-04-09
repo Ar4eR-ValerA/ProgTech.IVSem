@@ -1,5 +1,5 @@
 namespace Client;
-class CustomerCreateDto
+public class CustomerCreateDto
 {
     public CustomerCreateDto(String name, String email)
     {

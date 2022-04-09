@@ -9,11 +9,11 @@ public class RequesterExample
         _client = new HttpClient();
     }
 
-    public async Task Post()
+    public async Task Post1(CustomerCreateDto customerCreateDto)
     {
         var content = new MultipartFormDataContent();
-        content.Add(new StringContent("valera"), "name");
-        content.Add(new StringContent("ca@vsd"), "email");
+        content.Add(new StringContent(customerCreateDto.name), "name");
+        content.Add(new StringContent(customerCreateDto.email), "email");
 
         var response = await _client.PostAsync("http://localhost:8080/create", content);
         var responseString = await response.Content.ReadAsStringAsync();
@@ -25,16 +25,4 @@ public class RequesterExample
         var response = await _client.GetStringAsync("http://localhost:8080/getAll");
         Console.WriteLine(response);
     }
-}
-
-class CustomerCreateExample
-{
-    public CustomerCreateExample(string name, string email)
-    {
-        this.name = name;
-        this.email = email;
-    }
-
-    public string name { get; set; }
-    public string email { get; set; }
 }

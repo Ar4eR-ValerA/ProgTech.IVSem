@@ -17,7 +17,7 @@ public static class TypeMapper
     {
         var complicatedType = type.Split('[', ']', '<', '>').Where(s => s != "").ToArray();
 
-        if (complicatedType.Length == 1 && complicatedType.Last() == "]")
+        if (type.Last() == ']')
         {
             return $"{FindKeywords(complicatedType.First())}[]";
         }

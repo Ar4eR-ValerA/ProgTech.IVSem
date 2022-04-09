@@ -1,5 +1,5 @@
 namespace Client;
-class CustomerGetDto
+public class CustomerGetDto
 {
     public CustomerGetDto(int id, String name, String email)
     {

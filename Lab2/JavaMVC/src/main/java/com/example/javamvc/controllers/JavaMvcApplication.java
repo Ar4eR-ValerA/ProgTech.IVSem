@@ -26,7 +26,7 @@ public class JavaMvcApplication {
     }
 
     @PostMapping("/create")
-    public int create(CustomerCreateDto customerCreateDto) {
+    public int create(@RequestBody CustomerCreateDto customerCreateDto) {
         return customerService.add(new Customer(customerCreateDto.getName(), customerCreateDto.getEmail()));
     }
 

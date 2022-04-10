@@ -124,7 +124,7 @@ public class MethodGenerator
                                                             IdentifierName("Content")),
                                                         IdentifierName("ReadAsStringAsync")))))))))
             })
-            .AddStatements(GetReturnStatment());
+            .AddStatements(GetReturnStatement());
 
         return block;
     }
@@ -321,7 +321,7 @@ public class MethodGenerator
         return $"{Url}{CsMethod.Route}";
     }
 
-    private StatementSyntax[] GetReturnStatment()
+    private StatementSyntax[] GetReturnStatement()
     {
         var statementSyntaxes = new List<StatementSyntax>();
 

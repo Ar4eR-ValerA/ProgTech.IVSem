@@ -15,11 +15,41 @@ public class JavaMvcApplication
         }
     }
 
+    public async Task<int> onlyName(String name)
+    {
+        {
+            var content = $"?name={name}";
+            var response = await _client.PostAsync("http://localhost:8080/onlyName" + content, new StringContent(""));
+            var responseString = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<int>(responseString);
+        }
+    }
+
     public async Task<List<CustomerGetDto>> getAll()
     {
         {
-            var content = new StringContent($"");
-            var response = await _client.GetAsync("http://localhost:8080/getAll");
+            var content = $"";
+            var response = await _client.GetAsync("http://localhost:8080/getAll" + content);
+            var responseString = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<List<CustomerGetDto>>(responseString);
+        }
+    }
+
+    public async Task<bool> isNumber(int number)
+    {
+        {
+            var content = $"?number={number}";
+            var response = await _client.GetAsync("http://localhost:8080/isNumber" + content);
+            var responseString = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<bool>(responseString);
+        }
+    }
+
+    public async Task<List<CustomerGetDto>> getByName(String name)
+    {
+        {
+            var content = $"?name={name}";
+            var response = await _client.GetAsync("http://localhost:8080/getByName" + content);
             var responseString = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<List<CustomerGetDto>>(responseString);
         }

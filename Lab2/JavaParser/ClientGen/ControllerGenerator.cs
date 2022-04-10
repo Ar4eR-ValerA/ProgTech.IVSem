@@ -57,10 +57,8 @@ public class ControllerGenerator
                                         List<MemberDeclarationSyntax>(
                                             new MemberDeclarationSyntax[]
                                             {
-                                                GetHttpClientField(),
-                                                new MethodGenerator(CsController.Methods[0], Url).Generate(),
-                                                new MethodGenerator(CsController.Methods[1], Url).Generate()
-                                            }))))))
+                                                GetHttpClientField()
+                                            }).AddRange(GetMethods()))))))
                 .NormalizeWhitespace();
 
         File.WriteAllText(@$"{path}\{CsController.Name}Client.cs", compilationUnitSyntax.ToString());
@@ -87,5 +85,13 @@ public class ControllerGenerator
                     Token(SyntaxKind.PrivateKeyword),
                     Token(SyntaxKind.StaticKeyword)
                 }));
+    }
+
+    private List<MemberDeclarationSyntax> GetMethods()
+    {
+        return CsController.Methods
+            .Select(method => new MethodGenerator(method, Url))
+            .Select(methodGenerator => methodGenerator.Generate())
+            .ToList();
     }
 }

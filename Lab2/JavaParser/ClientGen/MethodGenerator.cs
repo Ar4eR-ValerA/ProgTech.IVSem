@@ -14,7 +14,8 @@ public class MethodGenerator
         CsMethod = csMethod;
     }
 
-    public string Url { get; set; }
+    public string Url { get; private set; }
+    public CsMethod CsMethod { get; set; }
 
     public MemberDeclarationSyntax Generate()
     {
@@ -36,8 +37,6 @@ public class MethodGenerator
                 Block(GetMethodBody()));
     }
 
-    public CsMethod CsMethod { get; private set; }
-
     private string GetReturnType()
     {
         if (CsMethod.ReturnType == "void")
@@ -56,16 +55,19 @@ public class MethodGenerator
     private BlockSyntax GetMethodBody()
     {
         StatementSyntax[] requestContent;
+        bool isQuery;
 
         if (CsMethod.Args
-            .Select(arg => Type.GetType(TypeMapper.MapType(arg.Type)))
-            .All(type => type is not null && (type.IsPrimitive || type == typeof(string))))
+            .Select(arg => TypeMapper.MapType(arg.Type))
+            .All(TypeMapper.IsQuery))
         {
             requestContent = GetQueryRequestContent();
+            isQuery = true;
         }
         else
         {
             requestContent = GetBodyRequestContent();
+            isQuery = false;
         }
 
         var block = Block()
@@ -96,7 +98,7 @@ public class MethodGenerator
                                                     .WithArgumentList(
                                                         ArgumentList(
                                                             SeparatedList<ArgumentSyntax>(
-                                                                GetRequestArgs()))))))))),
+                                                                GetRequestArgs(isQuery)))))))))),
                 LocalDeclarationStatement(
                     VariableDeclaration(
                             IdentifierName(
@@ -146,45 +148,65 @@ public class MethodGenerator
                                     Identifier("content"))
                                 .WithInitializer(
                                     EqualsValueClause(
-                                        ObjectCreationExpression(
-                                                IdentifierName("StringContent"))
-                                            .WithArgumentList(
-                                                ArgumentList(
-                                                    SingletonSeparatedList<ArgumentSyntax>(
-                                                        Argument(
-                                                            InterpolatedStringExpression(
-                                                                    Token(SyntaxKind
-                                                                        .InterpolatedStringStartToken))
-                                                                .WithContents(
-                                                                    List<InterpolatedStringContentSyntax>(
-                                                                        GetQueryArgs())))))))))))
+                                        InterpolatedStringExpression(
+                                                Token(SyntaxKind.InterpolatedStringStartToken))
+                                            .WithContents(
+                                                List<InterpolatedStringContentSyntax>(
+                                                    GetQueryArgs())))))))
         };
     }
 
-    private SyntaxNodeOrToken[] GetRequestArgs()
+    private SyntaxNodeOrToken[] GetRequestArgs(bool isQuery)
     {
-        if (CsMethod.RestVerb != "Get")
+        if (CsMethod.RestVerb == "Get")
         {
-
             return new SyntaxNodeOrToken[]
             {
                 Argument(
-                    LiteralExpression(
-                        SyntaxKind.StringLiteralExpression,
-                        Literal(GetRoute()))),
-                Token(SyntaxKind.CommaToken),
-                Argument(
-                    IdentifierName("content"))
+                    BinaryExpression(
+                        SyntaxKind.AddExpression,
+                        LiteralExpression(
+                            SyntaxKind.StringLiteralExpression,
+                            Literal(GetRoute())),
+                        IdentifierName("content")))
             };
         }
-        
-        return new SyntaxNodeOrToken[]
+
+        if (isQuery)
+        {
+            return new SyntaxNodeOrToken[]
             {
                 Argument(
-                    LiteralExpression(
-                        SyntaxKind.StringLiteralExpression,
-                        Literal(GetRoute())))
+                    BinaryExpression(
+                        SyntaxKind.AddExpression,
+                        LiteralExpression(
+                            SyntaxKind.StringLiteralExpression,
+                            Literal(GetRoute())),
+                        IdentifierName("content"))),
+                Token(SyntaxKind.CommaToken),
+                Argument(
+                    ObjectCreationExpression(
+                            IdentifierName("StringContent"))
+                        .WithArgumentList(
+                            ArgumentList(
+                                SingletonSeparatedList<ArgumentSyntax>(
+                                    Argument(
+                                        LiteralExpression(
+                                            SyntaxKind.StringLiteralExpression,
+                                            Literal("")))))))
             };
+        }
+
+        return new SyntaxNodeOrToken[]
+        {
+            Argument(
+                LiteralExpression(
+                    SyntaxKind.StringLiteralExpression,
+                    Literal(GetRoute()))),
+            Token(SyntaxKind.CommaToken),
+            Argument(
+                IdentifierName("content"))
+        };
     }
 
     private List<InterpolatedStringContentSyntax> GetQueryArgs()
@@ -231,6 +253,11 @@ public class MethodGenerator
     {
         var statementSyntaxes = new List<StatementSyntax>();
 
+        if (CsMethod.Args.Count > 1)
+        {
+            throw new Exception("There are more than 1 dto");
+        }
+
         statementSyntaxes.Add(LocalDeclarationStatement(
             VariableDeclaration(
                     IdentifierName(
@@ -255,40 +282,7 @@ public class MethodGenerator
                                             ArgumentList(
                                                 SingletonSeparatedList<ArgumentSyntax>(
                                                     Argument(
-                                                        IdentifierName(CsMethod.Args[0].Name)))))))))));
-
-        /*foreach (var arg in CsMethod.Args)
-        {
-            statementSyntaxes.Add(ExpressionStatement(
-                InvocationExpression(
-                        MemberAccessExpression(
-                            SyntaxKind.SimpleMemberAccessExpression,
-                            IdentifierName("content"),
-                            IdentifierName("Add")))
-                    .WithArgumentList(
-                        ArgumentList(
-                            SeparatedList<ArgumentSyntax>(
-                                new SyntaxNodeOrToken[]
-                                {
-                                    Argument(
-                                        ObjectCreationExpression(
-                                                IdentifierName("StringContent"))
-                                            .WithArgumentList(
-                                                ArgumentList(
-                                                    SingletonSeparatedList<ArgumentSyntax>(
-                                                        Argument(
-                                                            MemberAccessExpression(
-                                                                SyntaxKind.SimpleMemberAccessExpression,
-                                                                IdentifierName(arg.Name),
-                                                                IdentifierName(arg.Name))))))),
-                                    Token(SyntaxKind.CommaToken),
-                                    Argument(
-                                        LiteralExpression(
-                                            SyntaxKind.StringLiteralExpression,
-                                            Literal(arg.Name)))
-                                })))));
-        }*/
-
+                                                        IdentifierName(CsMethod.Args.First().Name)))))))))));
         return statementSyntaxes.ToArray();
     }
 

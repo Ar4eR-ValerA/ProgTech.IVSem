@@ -33,4 +33,28 @@ public static class TypeMapper
 
         return $"{FindKeywords(complicatedType.First())}<{MapType(otherType)}>";
     }
+
+    public static bool IsQuery(string type)
+    {
+        return type is
+            "string" or
+            "char" or
+            "int" or
+            "byte" or
+            "short" or
+            "decimal" or
+            "double" or
+            "float" or
+            "long" or
+            "String" or
+            "Char" or
+            "Int" or
+            "Byte" or
+            "Short" or
+            "Decimal" or
+            "Double" or
+            "Float" or
+            "Long" or
+            "bool";
+    }
 }

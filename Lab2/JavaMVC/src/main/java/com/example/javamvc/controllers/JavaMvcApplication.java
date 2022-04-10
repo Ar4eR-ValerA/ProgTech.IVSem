@@ -48,6 +48,11 @@ public class JavaMvcApplication {
         return customerDtos;
     }
 
+    @GetMapping("/isNumber")
+    public boolean isNumber(int number) {
+        return customerService.getAll().size() == number;
+    }
+
     @GetMapping("/getByName")
     public ArrayList<CustomerGetDto> getByName(String name) {
         var customerDtos = new ArrayList<CustomerGetDto>();

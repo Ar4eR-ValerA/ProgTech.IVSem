@@ -9,6 +9,7 @@ public static class TypeMapper
         return type switch
         {
             "ArrayList" => "List",
+            "boolean" => "bool",
             _ => type
         };
     }

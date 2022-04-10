@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 //http://localhost:8080/create
 //http://localhost:8080/getAll
@@ -30,6 +31,11 @@ public class JavaMvcApplication {
         return customerService.add(new Customer(customerCreateDto.getName(), customerCreateDto.getEmail()));
     }
 
+    @PostMapping("/onlyName")
+    public int onlyName(String name) {
+        return customerService.add(new Customer(name,"standart@milo"));
+    }
+
     @GetMapping("/getAll")
     public ArrayList<CustomerGetDto> getAll() {
         var customerDtos = new ArrayList<CustomerGetDto>();
@@ -42,5 +48,15 @@ public class JavaMvcApplication {
         return customerDtos;
     }
 
+    @GetMapping("/getByName")
+    public ArrayList<CustomerGetDto> getByName(String name) {
+        var customerDtos = new ArrayList<CustomerGetDto>();
+        var customers = customerService.getByName(name);
 
+        for (Customer c: customers) {
+            customerDtos.add(new CustomerGetDto(c.getId(), c.getName(), c.getEmail()));
+        }
+
+        return customerDtos;
+    }
 }

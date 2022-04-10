@@ -27,6 +27,18 @@ public class CustomerService {
         throw new RuntimeException("There is no such customer");
     }
 
+    public ArrayList<Customer> getByName(String name) {
+        var ans = new ArrayList<Customer>();
+
+        for (var c: customers) {
+            if (c.getName().equals(name)) {
+                ans.add(c);
+            }
+        }
+
+        return ans;
+    }
+
     public ArrayList<Customer> getAll() {
         return customers;
     }

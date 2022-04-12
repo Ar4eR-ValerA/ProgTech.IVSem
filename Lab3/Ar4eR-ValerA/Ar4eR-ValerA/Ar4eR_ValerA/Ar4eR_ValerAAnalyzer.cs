@@ -46,9 +46,10 @@ namespace Ar4eR_ValerA
 
         private static void AnalyzeMethodDeclaration(SyntaxNodeAnalysisContext context)
         {
-            var methodDeclaration = (MethodDeclarationSyntax) context.Node;
+            var methodDeclaration = (MethodDeclarationSyntax)context.Node;
 
-            if (methodDeclaration.Identifier.ToString().ToLower().Contains("try"))
+            if (methodDeclaration.Identifier.ToString().ToLower().Contains("try") &&
+                methodDeclaration.ReturnType.ToString() != "bool")
             {
                 var diagnostic = Diagnostic.Create(
                     Rule,

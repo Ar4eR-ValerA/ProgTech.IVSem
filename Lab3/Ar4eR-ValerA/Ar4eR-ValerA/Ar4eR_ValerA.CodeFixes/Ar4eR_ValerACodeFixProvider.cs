@@ -10,8 +10,10 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Composition;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis.Editing;
 
 namespace Ar4eR_ValerA
 {
@@ -38,34 +40,51 @@ namespace Ar4eR_ValerA
             var diagnosticSpan = diagnostic.Location.SourceSpan;
 
             // Find the type declaration identified by the diagnostic.
-            var declaration = root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf().OfType<TypeDeclarationSyntax>().First();
+            var declaration = root.FindToken(diagnosticSpan.Start).Parent
+                .AncestorsAndSelf()
+                .OfType<MethodDeclarationSyntax>().First();
 
             // Register a code action that will invoke the fix.
             context.RegisterCodeFix(
                 CodeAction.Create(
                     title: CodeFixResources.CodeFixTitle,
-                    createChangedSolution: c => MakeUppercaseAsync(context.Document, declaration, c),
+                    createChangedDocument: c => MakeReturnTypeBool(context.Document, declaration, c),
                     equivalenceKey: nameof(CodeFixResources.CodeFixTitle)),
                 diagnostic);
         }
 
-        private async Task<Solution> MakeUppercaseAsync(Document document, TypeDeclarationSyntax typeDecl, CancellationToken cancellationToken)
+        private async Task<Document> MakeReturnTypeBool(
+            Document document,
+            MethodDeclarationSyntax methodDeclarationNode,
+            CancellationToken cancellationToken)
         {
-            // Compute new uppercase name.
-            var identifierToken = typeDecl.Identifier;
-            var newName = identifierToken.Text.ToUpperInvariant();
+            var editor = await DocumentEditor.CreateAsync(document, cancellationToken);
 
-            // Get the symbol representing the type to be renamed.
-            var semanticModel = await document.GetSemanticModelAsync(cancellationToken);
-            var typeSymbol = semanticModel.GetDeclaredSymbol(typeDecl, cancellationToken);
+            var oldReturnStatementNode = (ReturnStatementSyntax)methodDeclarationNode.Body.Statements
+                .First(s => s is ReturnStatementSyntax);
+            var newReturnStatementNode = oldReturnStatementNode
+                .WithExpression(SyntaxFactory.LiteralExpression(SyntaxKind.TrueLiteralExpression));
 
-            // Produce a new solution that has all references to that type renamed, including the declaration.
-            var originalSolution = document.Project.Solution;
-            var optionSet = originalSolution.Workspace.Options;
-            var newSolution = await Renamer.RenameSymbolAsync(document.Project.Solution, typeSymbol, newName, optionSet, cancellationToken).ConfigureAwait(false);
+            var oldReturnTypeNode = (PredefinedTypeSyntax)methodDeclarationNode.ReturnType;
+            var newReturnTypeNode = oldReturnTypeNode.WithKeyword(SyntaxFactory.Token(SyntaxKind.BoolKeyword));
 
-            // Return the new solution with the now-uppercase type name.
-            return newSolution;
+            var newParameter = SyntaxFactory
+                .Parameter(SyntaxFactory.Identifier("stringOut"))
+                .WithModifiers(SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.OutKeyword)))
+                .WithType(SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.StringKeyword)));
+
+            var newStringOutStatement = SyntaxFactory.ExpressionStatement(
+                SyntaxFactory.AssignmentExpression(
+                    SyntaxKind.SimpleAssignmentExpression,
+                    SyntaxFactory.IdentifierName("stringOut"),
+                    oldReturnStatementNode.Expression));
+
+            editor.InsertParameter(methodDeclarationNode, 0, newParameter);
+            editor.InsertBefore(oldReturnStatementNode, newStringOutStatement);
+            editor.ReplaceNode(oldReturnStatementNode, newReturnStatementNode);
+            editor.ReplaceNode(oldReturnTypeNode, newReturnTypeNode);
+
+            return editor.GetChangedDocument();
         }
     }
 }

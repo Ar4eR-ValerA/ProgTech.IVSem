@@ -51,8 +51,13 @@ namespace Ar4eR_ValerA.Test
 
     namespace ConsoleApplication1
     {
-        class TYPENAME
-        {   
+        class t
+        {
+            public bool TryParse(out string stringOut)
+            {
+                stringOut = string.Empty;
+                return true;
+            }   
         }
     }";
 
@@ -60,8 +65,8 @@ namespace Ar4eR_ValerA.Test
                 .Diagnostic("Ar4eR_ValerA")
                 .WithSpan(13, 13, 16, 14)
                 .WithArguments("TryParse");
-            await VerifyCS.VerifyAnalyzerAsync(test, expected);
-            //await VerifyCS.VerifyCodeFixAsync(test, expected, fixtest);
+            //await VerifyCS.VerifyAnalyzerAsync(test, expected);
+            await VerifyCS.VerifyCodeFixAsync(test, expected, fixtest);
         }
     }
 }

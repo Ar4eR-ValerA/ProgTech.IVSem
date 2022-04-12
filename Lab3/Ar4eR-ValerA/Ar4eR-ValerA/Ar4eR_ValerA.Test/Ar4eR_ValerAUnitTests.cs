@@ -32,8 +32,12 @@ namespace Ar4eR_ValerA.Test
 
     namespace ConsoleApplication1
     {
-        class {|#0:TypeName|}
-        {   
+        class t
+        {
+            public string TryParse()
+            {
+                return string.Empty;
+            }   
         }
     }";
 
@@ -52,8 +56,12 @@ namespace Ar4eR_ValerA.Test
         }
     }";
 
-            var expected = VerifyCS.Diagnostic("Ar4eR_ValerA").WithLocation(0).WithArguments("TypeName");
-            await VerifyCS.VerifyCodeFixAsync(test, expected, fixtest);
+            var expected = VerifyCS
+                .Diagnostic("Ar4eR_ValerA")
+                .WithSpan(13, 13, 16, 14)
+                .WithArguments("TryParse");
+            await VerifyCS.VerifyAnalyzerAsync(test, expected);
+            //await VerifyCS.VerifyCodeFixAsync(test, expected, fixtest);
         }
     }
 }

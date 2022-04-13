@@ -9,7 +9,6 @@ namespace Ar4eR_ValerA.Test
     [TestClass]
     public class Ar4eR_ValerAUnitTest
     {
-        //No diagnostics expected to show up
         [TestMethod]
         public async Task TestMethod1()
         {
@@ -18,7 +17,6 @@ namespace Ar4eR_ValerA.Test
             await VerifyCS.VerifyAnalyzerAsync(test);
         }
 
-        //Diagnostic and CodeFix both triggered and checked for
         [TestMethod]
         public async Task TestMethod2()
         {
@@ -34,9 +32,16 @@ namespace Ar4eR_ValerA.Test
     {
         class t
         {
-            public string TryParse()
+            public string TryCalc(int x)
             {
-                return string.Empty;
+                if (x > 1) 
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    return String.Empty;
+                }
             }   
         }
     }";
@@ -53,20 +58,59 @@ namespace Ar4eR_ValerA.Test
     {
         class t
         {
-            public bool TryParse(out string stringOut)
+            public bool TryCalc(out string stringOut, int x)
             {
+                if (x > 1) 
+                {
                 stringOut = string.Empty;
                 return true;
+                }
+                else
+                {
+                stringOut = String.Empty;
+                return true;
+                }
             }   
         }
     }";
 
             var expected = VerifyCS
                 .Diagnostic("Ar4eR_ValerA")
-                .WithSpan(13, 13, 16, 14)
-                .WithArguments("TryParse");
-            //await VerifyCS.VerifyAnalyzerAsync(test, expected);
+                .WithSpan(13, 13, 23, 14)
+                .WithArguments("TryCalc");
             await VerifyCS.VerifyCodeFixAsync(test, expected, fixtest);
+        }
+
+        [TestMethod]
+        public async Task TestMethod3()
+        {
+            var test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class t
+        {
+            public bool TryCalc(int x)
+            {
+                if (x > 1) 
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }   
+        }
+    }";
+
+            await VerifyCS.VerifyAnalyzerAsync(test);
         }
     }
 }

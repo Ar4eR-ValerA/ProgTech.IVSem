@@ -61,29 +61,56 @@ namespace Ar4eR_ValerA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There should be mo magic numbers..
+        /// </summary>
+        internal static string I3_AnalyzerDescription {
+            get {
+                return ResourceManager.GetString("I3_AnalyzerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} - magic number..
+        /// </summary>
+        internal static string I3_AnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("I3_AnalyzerMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Magic number in code..
+        /// </summary>
+        internal static string I3_AnalyzerTitle {
+            get {
+                return ResourceManager.GetString("I3_AnalyzerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Method. which contains &quot;Try&quot; in name, should returns bool value..
         /// </summary>
-        internal static string AnalyzerDescription {
+        internal static string O5_AnalyzerDescription {
             get {
-                return ResourceManager.GetString("AnalyzerDescription", resourceCulture);
+                return ResourceManager.GetString("O5_AnalyzerDescription", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Mehod &apos;{0}&apos; returns not bool value..
         /// </summary>
-        internal static string AnalyzerMessageFormat {
+        internal static string O5_AnalyzerMessageFormat {
             get {
-                return ResourceManager.GetString("AnalyzerMessageFormat", resourceCulture);
+                return ResourceManager.GetString("O5_AnalyzerMessageFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Method, which contains &quot;Try&quot; in name, returns not bool value..
         /// </summary>
-        internal static string AnalyzerTitle {
+        internal static string O5_AnalyzerTitle {
             get {
-                return ResourceManager.GetString("AnalyzerTitle", resourceCulture);
+                return ResourceManager.GetString("O5_AnalyzerTitle", resourceCulture);
             }
         }
     }

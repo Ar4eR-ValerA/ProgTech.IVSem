@@ -7,19 +7,19 @@ using System.Collections.Immutable;
 namespace Ar4eR_ValerA
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class Ar4eR_ValerAAnalyzer : DiagnosticAnalyzer
+    public class Ar4eR_ValerA_O5_Analyzer : DiagnosticAnalyzer
     {
         public const string DiagnosticId = "Ar4eR_ValerA";
 
-        private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.AnalyzerTitle),
+        private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.O5_AnalyzerTitle),
             Resources.ResourceManager, typeof(Resources));
 
         private static readonly LocalizableString MessageFormat =
-            new LocalizableResourceString(nameof(Resources.AnalyzerMessageFormat), Resources.ResourceManager,
+            new LocalizableResourceString(nameof(Resources.O5_AnalyzerMessageFormat), Resources.ResourceManager,
                 typeof(Resources));
 
         private static readonly LocalizableString Description =
-            new LocalizableResourceString(nameof(Resources.AnalyzerDescription), Resources.ResourceManager,
+            new LocalizableResourceString(nameof(Resources.O5_AnalyzerDescription), Resources.ResourceManager,
                 typeof(Resources));
 
         private const string Category = "Naming";

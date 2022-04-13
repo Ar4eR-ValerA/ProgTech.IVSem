@@ -13,12 +13,12 @@ using Microsoft.CodeAnalysis.Editing;
 
 namespace Ar4eR_ValerA
 {
-    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(Ar4eR_ValerACodeFixProvider)), Shared]
-    public class Ar4eR_ValerACodeFixProvider : CodeFixProvider
+    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(Ar4eR_ValerA_O5_CodeFixProvider)), Shared]
+    public class Ar4eR_ValerA_O5_CodeFixProvider : CodeFixProvider
     {
         public sealed override ImmutableArray<string> FixableDiagnosticIds
         {
-            get { return ImmutableArray.Create(Ar4eR_ValerAAnalyzer.DiagnosticId); }
+            get { return ImmutableArray.Create(Ar4eR_ValerA_O5_Analyzer.DiagnosticId); }
         }
 
         public sealed override FixAllProvider GetFixAllProvider()
@@ -29,14 +29,14 @@ namespace Ar4eR_ValerA
         public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
             var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
-            
+
             var diagnostic = context.Diagnostics.First();
             var diagnosticSpan = diagnostic.Location.SourceSpan;
-            
+
             var declaration = root.FindToken(diagnosticSpan.Start).Parent
                 .AncestorsAndSelf()
                 .OfType<MethodDeclarationSyntax>().First();
-            
+
             context.RegisterCodeFix(
                 CodeAction.Create(
                     title: CodeFixResources.CodeFixTitle,
@@ -51,11 +51,13 @@ namespace Ar4eR_ValerA
             CancellationToken cancellationToken)
         {
             var editor = await DocumentEditor.CreateAsync(document, cancellationToken);
-            List<ReturnStatementSyntax> returnStatements = GetAllStatements(methodDeclarationNode);
-            
+            var returnStatements = methodDeclarationNode
+                .DescendantNodesAndSelf()
+                .Where(node => node is ReturnStatementSyntax);
+
             foreach (var returnStatement in returnStatements)
             {
-                var oldReturnStatementNode = returnStatement;
+                var oldReturnStatementNode = (ReturnStatementSyntax)returnStatement;
                 var newReturnStatementNode = oldReturnStatementNode
                     .WithExpression(SyntaxFactory.LiteralExpression(SyntaxKind.TrueLiteralExpression));
 
@@ -84,7 +86,7 @@ namespace Ar4eR_ValerA
             return editor.GetChangedDocument();
         }
 
-        private List<ReturnStatementSyntax> GetAllStatements(
+        private List<ReturnStatementSyntax> GetAllReturnStatements(
             SyntaxNode syntaxNode,
             List<ReturnStatementSyntax> returnStatementSyntaxes = null)
         {
@@ -100,7 +102,7 @@ namespace Ar4eR_ValerA
 
             foreach (var child in syntaxNode.ChildNodes())
             {
-                GetAllStatements(child, returnStatementSyntaxes);
+                GetAllReturnStatements(child, returnStatementSyntaxes);
             }
 
             return returnStatementSyntaxes;

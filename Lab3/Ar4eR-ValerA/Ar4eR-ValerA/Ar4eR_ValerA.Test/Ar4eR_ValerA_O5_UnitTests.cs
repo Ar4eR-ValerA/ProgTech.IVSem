@@ -1,13 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using VerifyCS = Ar4eR_ValerA.Test.CSharpCodeFixVerifier<
-    Ar4eR_ValerA.Ar4eR_ValerAAnalyzer,
-    Ar4eR_ValerA.Ar4eR_ValerACodeFixProvider>;
+    Ar4eR_ValerA.Ar4eR_ValerA_O5_Analyzer,
+    Ar4eR_ValerA.Ar4eR_ValerA_O5_CodeFixProvider>;
 
 namespace Ar4eR_ValerA.Test
 {
     [TestClass]
-    public class Ar4eR_ValerAUnitTest
+    public class Ar4eR_ValerA_O5_UnitTests
     {
         [TestMethod]
         public async Task TestMethod1()

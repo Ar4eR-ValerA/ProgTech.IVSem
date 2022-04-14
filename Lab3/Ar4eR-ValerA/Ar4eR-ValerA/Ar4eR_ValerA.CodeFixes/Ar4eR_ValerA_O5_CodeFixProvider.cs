@@ -51,61 +51,54 @@ namespace Ar4eR_ValerA
             CancellationToken cancellationToken)
         {
             var editor = await DocumentEditor.CreateAsync(document, cancellationToken);
+            var oldReturnTypeNode = (PredefinedTypeSyntax) methodDeclarationNode.ReturnType;
             var returnStatements = methodDeclarationNode
                 .DescendantNodesAndSelf()
-                .Where(node => node is ReturnStatementSyntax);
+                .Where(node => node is ReturnStatementSyntax)
+                .ToList();
 
             foreach (var returnStatement in returnStatements)
             {
-                var oldReturnStatementNode = (ReturnStatementSyntax)returnStatement;
+                var oldReturnStatementNode = (ReturnStatementSyntax) returnStatement;
                 var newReturnStatementNode = oldReturnStatementNode
                     .WithExpression(SyntaxFactory.LiteralExpression(SyntaxKind.TrueLiteralExpression));
 
                 var newStringOutStatement = SyntaxFactory.ExpressionStatement(
                     SyntaxFactory.AssignmentExpression(
                         SyntaxKind.SimpleAssignmentExpression,
-                        SyntaxFactory.IdentifierName("stringOut"),
+                        SyntaxFactory.IdentifierName($"{oldReturnTypeNode.Keyword}Out"),
                         oldReturnStatementNode.Expression));
 
                 editor.InsertBefore(oldReturnStatementNode, newStringOutStatement);
                 editor.ReplaceNode(oldReturnStatementNode, newReturnStatementNode);
             }
 
+            if (returnStatements.Count == 0)
+            {
+                editor.InsertAfter(
+                    methodDeclarationNode.Body.Statements.Last(),
+                    SyntaxFactory.ReturnStatement()
+                        .WithExpression(
+                            SyntaxFactory.LiteralExpression(
+                                SyntaxKind.TrueLiteralExpression))
+                );
+            }
 
-            var oldReturnTypeNode = (PredefinedTypeSyntax)methodDeclarationNode.ReturnType;
             var newReturnTypeNode = oldReturnTypeNode.WithKeyword(SyntaxFactory.Token(SyntaxKind.BoolKeyword));
-
-            var newParameter = SyntaxFactory
-                .Parameter(SyntaxFactory.Identifier("stringOut"))
-                .WithModifiers(SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.OutKeyword)))
-                .WithType(SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.StringKeyword)));
-
-            editor.InsertParameter(methodDeclarationNode, 0, newParameter);
             editor.ReplaceNode(oldReturnTypeNode, newReturnTypeNode);
 
+            if (oldReturnTypeNode.Keyword.ToString() == SyntaxFactory.Token(SyntaxKind.VoidKeyword).ToString())
+            {
+                return editor.GetChangedDocument();
+            }
+
+            var newParameter = SyntaxFactory
+                .Parameter(SyntaxFactory.Identifier($"{oldReturnTypeNode.Keyword}Out"))
+                .WithModifiers(SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.OutKeyword)))
+                .WithType(SyntaxFactory.PredefinedType(oldReturnTypeNode.Keyword));
+            editor.InsertParameter(methodDeclarationNode, 0, newParameter);
+
             return editor.GetChangedDocument();
-        }
-
-        private List<ReturnStatementSyntax> GetAllReturnStatements(
-            SyntaxNode syntaxNode,
-            List<ReturnStatementSyntax> returnStatementSyntaxes = null)
-        {
-            if (returnStatementSyntaxes is null)
-            {
-                returnStatementSyntaxes = new List<ReturnStatementSyntax>();
-            }
-
-            if (syntaxNode is ReturnStatementSyntax returnStatementSyntax)
-            {
-                returnStatementSyntaxes.Add(returnStatementSyntax);
-            }
-
-            foreach (var child in syntaxNode.ChildNodes())
-            {
-                GetAllReturnStatements(child, returnStatementSyntaxes);
-            }
-
-            return returnStatementSyntaxes;
         }
     }
 }

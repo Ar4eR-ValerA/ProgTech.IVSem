@@ -112,5 +112,104 @@ namespace Ar4eR_ValerA.Test
 
             await VerifyCS.VerifyAnalyzerAsync(test);
         }
+
+        [TestMethod]
+        public async Task TestMethod4()
+        {
+            var test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class t
+        {
+            public void TryCalc(int x)
+            {
+                Console.WriteLine();
+            }   
+        }
+    }";
+
+            var fixtest = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class t
+        {
+            public bool TryCalc(int x)
+            {
+                Console.WriteLine();
+            return true;
+        }   
+        }
+    }";
+
+            var expected = VerifyCS
+                .Diagnostic("Ar4eR_ValerA")
+                .WithSpan(13, 13, 16, 14)
+                .WithArguments("TryCalc");
+            await VerifyCS.VerifyCodeFixAsync(test, expected, fixtest);
+        }
+
+
+        [TestMethod]
+        public async Task TestMethod5()
+        {
+            var test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class t
+        {
+            public int TryCalc(int x)
+            {
+                return 2;
+            }   
+        }
+    }";
+
+            var fixtest = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class t
+        {
+            public bool TryCalc(out int intOut, int x)
+            {
+            intOut = 2;
+            return true;
+            }   
+        }
+    }";
+
+            var expected = VerifyCS
+                .Diagnostic("Ar4eR_ValerA")
+                .WithSpan(13, 13, 16, 14)
+                .WithArguments("TryCalc");
+            await VerifyCS.VerifyCodeFixAsync(test, expected, fixtest);
+        }
     }
 }

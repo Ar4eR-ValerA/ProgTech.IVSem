@@ -64,4 +64,10 @@ public class JavaMvcApplication {
 
         return customerDtos;
     }
+
+    @PatchMapping("/{id}")
+    public boolean changeEmailToItmo(int id) {
+        customerService.changeEmail(id, "itmo@itmo.ru");
+        return true;
+    }
 }

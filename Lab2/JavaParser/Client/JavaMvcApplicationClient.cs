@@ -54,4 +54,14 @@ public class JavaMvcApplication
             return JsonSerializer.Deserialize<List<CustomerGetDto>>(responseString);
         }
     }
+
+    public async Task<bool> changeEmailToItmo(int id)
+    {
+        {
+            var content = $"?id={id}";
+            var response = await _client.PatchAsync("http://localhost:8080/{id}" + content, new StringContent(""));
+            var responseString = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<bool>(responseString);
+        }
+    }
 }

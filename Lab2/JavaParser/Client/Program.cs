@@ -6,5 +6,6 @@ var t2 = await requester.getAll();
 var t3 = await requester.isNumber(1);
 var t4 = await requester.onlyName("vav");
 var t5 = await requester.getByName("va");
+var t6 = await requester.changeEmailToItmo(1);
 
 Console.WriteLine();

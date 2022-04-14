@@ -39,9 +39,9 @@ namespace Ar4eR_ValerA
 
             context.RegisterCodeFix(
                 CodeAction.Create(
-                    title: CodeFixResources.CodeFixTitle,
+                    title: CodeFixResources.O5_CodeFixTitle,
                     createChangedDocument: c => MakeReturnTypeBool(context.Document, declaration, c),
-                    equivalenceKey: nameof(CodeFixResources.CodeFixTitle)),
+                    equivalenceKey: nameof(CodeFixResources.O5_CodeFixTitle)),
                 diagnostic);
         }
 

@@ -39,9 +39,9 @@ namespace Ar4eR_ValerA
 
             context.RegisterCodeFix(
                 CodeAction.Create(
-                    title: CodeFixResources.CodeFixTitle,
+                    title: CodeFixResources.I3_CodeFixTitle,
                     createChangedDocument: c => RemoveMagicNumber(context.Document, declaration, c),
-                    equivalenceKey: nameof(CodeFixResources.CodeFixTitle)),
+                    equivalenceKey: nameof(CodeFixResources.I3_CodeFixTitle)),
                 diagnostic);
         }
 

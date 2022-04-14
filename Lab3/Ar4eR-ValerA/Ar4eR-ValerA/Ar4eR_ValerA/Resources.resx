@@ -121,12 +121,12 @@
     <value>Method. which contains "Try" in name, should returns bool value.</value>
     <comment>An optional longer localizable description of the diagnostic.</comment>
   </data>
-  <data name="O5_AnalyzerMessageFormat" xml:space="preserve">
-    <value>Mehod '{0}' returns not bool value.</value>
-    <comment>The format-able message the diagnostic displays.</comment>
-  </data>
   <data name="O5_AnalyzerTitle" xml:space="preserve">
     <value>Method, which contains "Try" in name, returns not bool value.</value>
+    <comment>The format-able message the diagnostic displays.</comment>
+  </data>
+  <data name="O5_AnalyzerMessageFormat" xml:space="preserve">
+    <value>Mehod '{0}' returns not bool value.</value>
     <comment>The title of the diagnostic.</comment>
   </data>
   <data name="I3_AnalyzerDescription" xml:space="preserve">

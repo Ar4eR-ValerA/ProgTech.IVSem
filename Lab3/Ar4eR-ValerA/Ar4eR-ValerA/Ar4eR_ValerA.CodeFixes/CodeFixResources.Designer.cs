@@ -61,11 +61,20 @@ namespace Ar4eR_ValerA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Change method return type..
+        ///   Looks up a localized string similar to Remove magic numbers..
         /// </summary>
-        internal static string CodeFixTitle {
+        internal static string I3_CodeFixTitle {
             get {
-                return ResourceManager.GetString("CodeFixTitle", resourceCulture);
+                return ResourceManager.GetString("I3_CodeFixTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Make return type bool..
+        /// </summary>
+        internal static string O5_CodeFixTitle {
+            get {
+                return ResourceManager.GetString("O5_CodeFixTitle", resourceCulture);
             }
         }
     }

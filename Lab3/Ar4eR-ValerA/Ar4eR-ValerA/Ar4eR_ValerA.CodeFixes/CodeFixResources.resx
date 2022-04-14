@@ -117,8 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CodeFixTitle" xml:space="preserve">
-    <value>Change method return type.</value>
+  <data name="I3_CodeFixTitle" xml:space="preserve">
+    <value>Remove magic numbers.</value>
     <comment>The title of the code fix.</comment>
+  </data>
+  <data name="O5_CodeFixTitle" xml:space="preserve">
+    <value>Make return type bool.</value>
   </data>
 </root>

@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32319.34
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ar4eR_ValerA", "Ar4eR-ValerA\Ar4eR_ValerA\Ar4eR_ValerA.csproj", "{6A30793A-1288-4F62-9EBC-B36125D1D0E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ar4eR_ValerA.CodeFixes", "Ar4eR-ValerA\Ar4eR_ValerA.CodeFixes\Ar4eR_ValerA.CodeFixes.csproj", "{2965F41B-DD13-4D16-AEEF-425EDDA92ACC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ar4eR_ValerA.Package", "Ar4eR-ValerA\Ar4eR_ValerA.Package\Ar4eR_ValerA.Package.csproj", "{BC3F1BC4-C938-4390-B91E-943EB931A32F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ar4eR_ValerA.Test", "Ar4eR-ValerA\Ar4eR_ValerA.Test\Ar4eR_ValerA.Test.csproj", "{C5C3E0FD-6078-4CF1-872A-8AA63A4291C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ar4eR_ValerA.Vsix", "Ar4eR-ValerA\Ar4eR_ValerA.Vsix\Ar4eR_ValerA.Vsix.csproj", "{B5FA7441-6E3C-4094-8B27-EA7278CA015A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6A30793A-1288-4F62-9EBC-B36125D1D0E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A30793A-1288-4F62-9EBC-B36125D1D0E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A30793A-1288-4F62-9EBC-B36125D1D0E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A30793A-1288-4F62-9EBC-B36125D1D0E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2965F41B-DD13-4D16-AEEF-425EDDA92ACC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2965F41B-DD13-4D16-AEEF-425EDDA92ACC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2965F41B-DD13-4D16-AEEF-425EDDA92ACC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2965F41B-DD13-4D16-AEEF-425EDDA92ACC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC3F1BC4-C938-4390-B91E-943EB931A32F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC3F1BC4-C938-4390-B91E-943EB931A32F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC3F1BC4-C938-4390-B91E-943EB931A32F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC3F1BC4-C938-4390-B91E-943EB931A32F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5C3E0FD-6078-4CF1-872A-8AA63A4291C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5C3E0FD-6078-4CF1-872A-8AA63A4291C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5C3E0FD-6078-4CF1-872A-8AA63A4291C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5C3E0FD-6078-4CF1-872A-8AA63A4291C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5FA7441-6E3C-4094-8B27-EA7278CA015A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5FA7441-6E3C-4094-8B27-EA7278CA015A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5FA7441-6E3C-4094-8B27-EA7278CA015A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5FA7441-6E3C-4094-8B27-EA7278CA015A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BF2376B7-79CC-4670-AB38-B4657F11D5D2}
+	EndGlobalSection
+EndGlobal

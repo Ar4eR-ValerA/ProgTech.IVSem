@@ -1,3 +1,8 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using System.Net;
+using DistributedFileSystem.Node8888.Services;
+using DistributedFileSystem.Node8888.TcpTools;
 
-Console.WriteLine("Hello, World!");
+IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
+const int port = 8888;
+
+Listener.Listen(ipAddress, port, new WindowsFileSystemService());

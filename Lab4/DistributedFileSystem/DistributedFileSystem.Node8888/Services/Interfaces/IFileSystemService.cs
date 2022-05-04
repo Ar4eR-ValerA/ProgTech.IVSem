@@ -6,4 +6,5 @@ public interface IFileSystemService
 {
     public void SaveFile(TcpClient tcpClient);
     public void SendFile(TcpClient tcpClient);
+    public void DeleteFile(TcpClient tcpClient);
 }

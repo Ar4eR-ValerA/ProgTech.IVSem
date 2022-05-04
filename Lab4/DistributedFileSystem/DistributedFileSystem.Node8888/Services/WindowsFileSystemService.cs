@@ -15,18 +15,18 @@ public class WindowsFileSystemService : IFileSystemService
 
     public void SaveFile(TcpClient tcpClient)
     {
-        var streamReader = new StreamReader(tcpClient.GetStream());
+        var stream = tcpClient.GetStream();
 
-        var fileNameLength = ReadInt(tcpClient.GetStream());
-        var fileName = ReadString(fileNameLength, tcpClient.GetStream());
+        var fileNameLength = ReadStringLength(stream);
+        var fileName = ReadString(fileNameLength, stream);
 
-        var fileSize = ReadInt(tcpClient.GetStream());
+        var fileSize = ReadStringLength(stream);
         var fullPath = $@"{Path}\{fileName}";
         
         var buffer = new byte[fileSize];
                 
-        tcpClient.GetStream().Read(buffer, 0, fileSize);
-        streamReader.Close();
+        stream.Read(buffer, 0, fileSize);
+        stream.Close();
 
         Directory.CreateDirectory(System.IO.Path.GetDirectoryName(fullPath) ?? string.Empty);
         using var fileStream = new FileStream(fullPath, FileMode.Create);
@@ -38,38 +38,34 @@ public class WindowsFileSystemService : IFileSystemService
 
     public void SendFile(TcpClient tcpClient)
     {
-        var streamReader = new StreamReader(tcpClient.GetStream());
+        var stream = tcpClient.GetStream();
         
-        var fileNameLength = ReadInt(tcpClient.GetStream());
-        var fileName = ReadString(fileNameLength, tcpClient.GetStream());
+        var fileNameLength = ReadStringLength(stream);
+        var fileName = ReadString(fileNameLength, stream);
         var fullPath = Path + fileName;
         
-        var targetFileLength = ReadInt(tcpClient.GetStream());
-        var targetFile = ReadString(targetFileLength, tcpClient.GetStream());
-        streamReader.Close();
-
+        var targetFileLength = ReadStringLength(stream);
+        var targetFile = ReadString(targetFileLength, stream);
+        stream.Close();
+        
+        
+        SendString(targetFile, stream);
+        
         var bytes = File.ReadAllBytes(fullPath);
-
-        using var streamWriter = new StreamWriter(tcpClient.GetStream());
-        
-        SendString(targetFile, streamWriter);
-        
-        streamWriter.Write(Encoding.Default.GetString(BitConverter.GetBytes(bytes.Length)));
-        streamWriter.Flush();
-
+        SendInt(bytes.Length, stream);
         tcpClient.Client.SendFile(fullPath);
-        streamWriter.Flush();
+        stream.Flush();
 
-        streamWriter.Close();
+        stream.Close();
     }
     
     public void DeleteFile(TcpClient tcpClient)
     {
-        var streamReader = new StreamReader(tcpClient.GetStream());
+        var stream = tcpClient.GetStream();
 
-        var fileNameLength = ReadInt(tcpClient.GetStream());
-        var fileName = ReadString(fileNameLength, tcpClient.GetStream());
-        streamReader.Close();
+        var fileNameLength = ReadStringLength(stream);
+        var fileName = ReadString(fileNameLength, stream);
+        stream.Close();
         
         var fullPath = $@"{Path}\{fileName}";
         
@@ -83,17 +79,23 @@ public class WindowsFileSystemService : IFileSystemService
         return Encoding.Default.GetString(buffer);
     }
 
-    private int ReadInt(NetworkStream stream)
+    private int ReadStringLength(NetworkStream stream)
     {
         var buffer = new byte[4];
         stream.Read(buffer, 0, buffer.Length);
         return BitConverter.ToInt32(buffer);
     }
 
-    private void SendString(string str, StreamWriter streamWriter)
+    private void SendString(string str, NetworkStream streamWriter)
     {
-        streamWriter.Write(Encoding.Default.GetString(BitConverter.GetBytes(str.Length)));
-        streamWriter.Write(str);
+        streamWriter.Write(BitConverter.GetBytes(str.Length));
+        streamWriter.Write(Encoding.ASCII.GetBytes(str));
+        streamWriter.Flush();
+    }
+    
+    private void SendInt(int number, NetworkStream streamWriter)
+    {
+        streamWriter.Write(BitConverter.GetBytes(number));
         streamWriter.Flush();
     }
 }

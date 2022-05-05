@@ -6,7 +6,7 @@
         "Node8888",
         "127.0.0.1",
         "8888",
-        "1048576"
+        "1073741824"
       ]
     },
     {
@@ -15,7 +15,7 @@
         "Node8889",
         "127.0.0.1",
         "8889",
-        "1048576"
+        "1073741824"
       ]
     },
     {
@@ -24,7 +24,7 @@
         "Node8890",
         "127.0.0.1",
         "8890",
-        "1048576"
+        "1073741824"
       ]
     },
     {
@@ -33,7 +33,7 @@
         "Node8891",
         "127.0.0.1",
         "8891",
-        "1048576"
+        "1073741824"
       ]
     },
     {
@@ -46,22 +46,36 @@
     {
       "name": "add-file",
       "args": [
-        "E:\\Desktop\\Распределённая файловая система\\Server\\Test1.txt",
-        "Test12.txt"
+        "E:\\Desktop\\Распределённая файловая система\\Server\\azure.exe",
+        "azure.exe"
       ]
     },
     {
       "name": "add-file",
       "args": [
-        "E:\\Desktop\\Распределённая файловая система\\Server\\Test1.txt",
-        "Test13.txt"
+        "E:\\Desktop\\Распределённая файловая система\\Server\\git.exe",
+        "git.exe"
       ]
     },
     {
       "name": "add-file",
       "args": [
-        "E:\\Desktop\\Распределённая файловая система\\Server\\Test1.txt",
-        "Test14.txt"
+        "E:\\Desktop\\Распределённая файловая система\\Server\\post.exe",
+        "post.exe"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "E:\\Desktop\\Распределённая файловая система\\Server\\ppp.pdf",
+        "ppp.pdf"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "E:\\Desktop\\Распределённая файловая система\\Server\\ppp.zip",
+        "ppp.zip"
       ]
     },
     {
@@ -93,17 +107,33 @@
       ]
     },
     {
-      "name": "add-file",
+      "name": "clean-node",
       "args": [
-        "E:\\Desktop\\Распределённая файловая система\\Server\\Test2.txt",
-        "Test22.txt"
+        "Node8888"
       ]
     },
     {
-      "name": "add-file",
+      "name": "clean-node",
       "args": [
-        "E:\\Desktop\\Распределённая файловая система\\Server\\Test3.txt",
-        "Test32.txt"
+        "Node8889"
+      ]
+    },
+    {
+      "name": "add-node",
+      "args": [
+        "Node8888",
+        "127.0.0.1",
+        "8888",
+        "1073741824"
+      ]
+    },
+    {
+      "name": "add-node",
+      "args": [
+        "Node8889",
+        "127.0.0.1",
+        "8889",
+        "1073741824"
       ]
     },
     {

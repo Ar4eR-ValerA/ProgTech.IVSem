@@ -37,6 +37,7 @@ public class WindowsFileSystemService : IFileSystemService
     {
         using var tcpClient = new TcpClient(ipAddress.ToString(), port);
         var bytes = File.ReadAllBytes(filePath);
+        // TODO: Сделать через stream
 
         var stream = tcpClient.GetStream();
         

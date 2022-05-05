@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Text.Json;
 using DistributedFileSystem.Services.Interfaces;
 using DistributedFileSystem.Services.ValueObjects;
 
@@ -17,14 +18,14 @@ public class NodeService
         _fileNodes = new Dictionary<string, Node>();
     }
 
-    
+
     public IReadOnlyList<Node> Nodes => _nodes;
     public IReadOnlyDictionary<string, Node> FilesNodes => _fileNodes;
 
     public void AddNode(string name, IPAddress ipAddress, int port, int size)
     {
         var node = new Node(name, ipAddress, port, size);
-        
+
         _nodes.Add(node);
     }
 
@@ -41,14 +42,51 @@ public class NodeService
 
         var selectedNode = suitableNodes[new Random().Next(0, suitableNodes.Count - 1)];
         _fileSystemService.SendFile(filePath, selectedNode.IpAddress, selectedNode.Port, newPath);
-        
+
         _fileNodes.Add(newPath, selectedNode);
     }
 
     public void DeleteFile(string filePath)
     {
         var node = FilesNodes[filePath];
-        
+
         _fileSystemService.DeleteFile(filePath, node.IpAddress, node.Port);
+    }
+
+    public void Execute(string commandFilePath)
+    {
+        var commandsJson = File.ReadAllText(commandFilePath);
+        var commands = JsonSerializer.Deserialize<CommandFile>(commandsJson);
+
+        if (commands is null)
+        {
+            return;
+        }
+
+        foreach (var command in commands.Commands)
+        {
+            switch (command.Name)
+            {
+                case "add-node":
+                    AddNode(
+                        command.Arguments[0],
+                        IPAddress.Parse(command.Arguments[1]),
+                        Convert.ToInt32(command.Arguments[2]),
+                        Convert.ToInt32(command.Arguments[3]));
+                    break;
+
+                case "add-file":
+                    AddFile(command.Arguments[0], command.Arguments[1]);
+                    break;
+
+                case "delete-file":
+                    DeleteFile(command.Arguments[0]);
+                    break;
+
+                case "exec":
+                    Execute(command.Arguments[0]);
+                    break;
+            }
+        }
     }
 }

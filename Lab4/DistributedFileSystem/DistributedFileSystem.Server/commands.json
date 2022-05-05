@@ -1,0 +1,33 @@
+﻿{
+  "commands": [
+    {
+      "name": "add-node",
+      "args": [
+        "Node8888",
+        "127.0.0.1",
+        "8888",
+        "1048576"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "E:\\Desktop\\Распределённая файловая система\\Server\\Test1.txt",
+        "Test1.txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "E:\\Desktop\\Распределённая файловая система\\Server\\Test.txt",
+        "Test.txt"
+      ]
+    },
+    {
+      "name": "delete-file",
+      "args": [
+        "Test1.txt"
+      ]
+    }
+  ]
+}

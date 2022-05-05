@@ -7,7 +7,6 @@ public class Node
     public Node(string name, IPAddress ipAddress, int port, int size)
     {
         Name = name;
-        Id = Guid.NewGuid();
         Size = size;
         FreeMemory = size;
         IpAddress = ipAddress;
@@ -15,7 +14,6 @@ public class Node
     }
 
     public string Name { get; }
-    public Guid Id { get; }
     public int Size { get; }
     public int FreeMemory { get; set; }
     public IPAddress IpAddress { get; }

@@ -51,6 +51,23 @@ public class NodeService
         var node = FilesNodes[filePath];
 
         _fileSystemService.DeleteFile(filePath, node.IpAddress, node.Port);
+        _fileNodes.Remove(filePath);
+    }
+
+    public void CleanNode(string name)
+    {
+        var node = _nodes.First(n => n.Name == name);
+        _nodes.Remove(node);
+        
+        foreach (var (filePath, _) in _fileNodes.Where(fileNode => fileNode.Value == node).ToList())
+        {
+            _fileSystemService.SaveFile(filePath, node.IpAddress, node.Port, filePath);
+            _fileSystemService.DeleteFile(filePath, node.IpAddress, node.Port);
+            _fileNodes.Remove(filePath);
+            AddFile(filePath, filePath);
+
+            File.Delete(filePath);
+        }
     }
 
     public void Execute(string commandFilePath)
@@ -81,6 +98,10 @@ public class NodeService
 
                 case "delete-file":
                     DeleteFile(command.Arguments[0]);
+                    break;
+
+                case "clean-node":
+                    CleanNode(command.Arguments[0]);
                     break;
 
                 case "exec":

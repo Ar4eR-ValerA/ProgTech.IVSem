@@ -1,8 +1,8 @@
 ﻿using System.Net.Sockets;
 using System.Text;
-using DistributedFileSystem.Node8888.Services.Interfaces;
+using DistributedFileSystem.Domain.Services.Interfaces;
 
-namespace DistributedFileSystem.Node8888.Services;
+namespace DistributedFileSystem.Domain.Services;
 
 public class WindowsFileSystemService : IFileSystemService
 {
@@ -42,13 +42,11 @@ public class WindowsFileSystemService : IFileSystemService
         
         var fileNameLength = ReadStringLength(stream);
         var fileName = ReadString(fileNameLength, stream);
-        var fullPath = Path + fileName;
+        var fullPath = $@"{Path}\{fileName}";
         
         var targetFileLength = ReadStringLength(stream);
         var targetFile = ReadString(targetFileLength, stream);
-        stream.Close();
-        
-        
+
         SendString(targetFile, stream);
         
         var bytes = File.ReadAllBytes(fullPath);

@@ -1,6 +1,6 @@
 ﻿using System.Net.Sockets;
 
-namespace DistributedFileSystem.Node8888.Services.Interfaces;
+namespace DistributedFileSystem.Domain.Services.Interfaces;
 
 public interface IFileSystemService
 {

@@ -28,6 +28,21 @@
       "args": [
         "Test1.txt"
       ]
+    },
+    {
+      "name": "add-node",
+      "args": [
+        "Node8889",
+        "127.0.0.1",
+        "8889",
+        "1048576"
+      ]
+    },
+    {
+      "name": "clean-node",
+      "args": [
+        "Node8888"
+      ]
     }
   ]
 }

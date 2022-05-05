@@ -1,9 +1,9 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using DistributedFileSystem.Node8888.Services.Interfaces;
+using DistributedFileSystem.Domain.Services.Interfaces;
 
-namespace DistributedFileSystem.Node8888.TcpTools;
+namespace DistributedFileSystem.Domain.TcpTools;
 
 public class Listener
 {

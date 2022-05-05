@@ -40,7 +40,7 @@ public class NodeService
             throw new Exception("There is no nodes with enough space");
         }
 
-        var selectedNode = suitableNodes[new Random().Next(0, suitableNodes.Count - 1)];
+        var selectedNode = suitableNodes[new Random().Next(0, suitableNodes.Count)];
         _fileSystemService.SendFile(filePath, selectedNode.IpAddress, selectedNode.Port, newPath);
         selectedNode.FreeMemory -= (int)file.Length;
 
@@ -52,6 +52,7 @@ public class NodeService
         var node = FilesNodes[filePath];
 
         _fileSystemService.DeleteFile(filePath, node.IpAddress, node.Port);
+        node.FreeMemory += (int)new FileInfo(filePath).Length;
         _fileNodes.Remove(filePath);
     }
 
@@ -73,15 +74,18 @@ public class NodeService
 
     public void Balance()
     {
-        var fileSizes = new SortedDictionary<string, int>();
+        var fileSizes = new List<(string filePath, int size)>();
 
         foreach (var (filePath, node) in _fileNodes)
         {
+            var file = new FileInfo(filePath);
+            
             _fileSystemService.SaveFile(filePath, node.IpAddress, node.Port, filePath);
             _fileSystemService.DeleteFile(filePath, node.IpAddress, node.Port);
+            node.FreeMemory += (int)file.Length;
             _fileNodes.Remove(filePath);
 
-            fileSizes.Add(filePath, (int)new FileInfo(filePath).Length);
+            fileSizes.Add((filePath, (int)file.Length));
         }
 
         if (fileSizes.Count == 0)
@@ -89,29 +93,52 @@ public class NodeService
             return;
         }
 
-        var firstFile = fileSizes.First();
-        var suitableNodes = _nodes.Where(n => n.FreeMemory > firstFile.Value).ToList();
-        var prevNode = Nodes[new Random().Next(0, suitableNodes.Count - 1)];
+        fileSizes = fileSizes.OrderByDescending(x => x.size).ToList();
 
-        _fileSystemService.SendFile(firstFile.Key, prevNode.IpAddress, prevNode.Port, firstFile.Key);
-        _fileNodes.Add(firstFile.Key, prevNode);
-        prevNode.FreeMemory -= firstFile.Value;
-        fileSizes.Remove(firstFile.Key);
-        File.Delete(firstFile.Key);
+        var firstFile = fileSizes.First();
+        var suitableNodes = _nodes.Where(n => n.FreeMemory > firstFile.size).ToList();
+
+        if (_nodes.Count == 0)
+        {
+            return;
+        }
+        
+        Node lastNode;
+        if (_nodes.Count == 1)
+        {
+            lastNode = Nodes[0];
+        }
+        else
+        {
+            lastNode = Nodes[suitableNodes.Count - 1];
+        }
+
+        _fileSystemService.SendFile(firstFile.filePath, lastNode.IpAddress, lastNode.Port, firstFile.filePath);
+        _fileNodes.Add(firstFile.filePath, lastNode);
+        lastNode.FreeMemory -= firstFile.size;
+        var prevSize = firstFile.size;
+        fileSizes.Remove(firstFile);
+        File.Delete(firstFile.filePath);
 
         while (fileSizes.Count > 0)
         {
             foreach (var node in Nodes)
             {
-                while (prevNode.Size - prevNode.FreeMemory > node.Size - node.FreeMemory &&
-                       fileSizes.Count > 0 &&
-                       fileSizes.First().Value < node.Size)
+                var currentSize = 0;
+                while (fileSizes.Count > 0 &&
+                       prevSize > currentSize &&
+                       fileSizes.First().size < node.Size)
                 {
                     var filePath = fileSizes.First();
-                    AddFile(filePath.Key, filePath.Key, node);
-                    fileSizes.Remove(filePath.Key);
-                    File.Delete(filePath.Key);
+                    AddFile(filePath.filePath, filePath.filePath, node);
+
+                    currentSize += fileSizes.First().size;
+                    
+                    fileSizes.Remove(filePath);
+                    File.Delete(filePath.filePath);
                 }
+
+                prevSize = currentSize;
             }
         }
     }

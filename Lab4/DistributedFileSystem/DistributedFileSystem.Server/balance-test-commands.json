@@ -1,0 +1,114 @@
+﻿{
+  "commands": [
+    {
+      "name": "add-node",
+      "args": [
+        "Node8888",
+        "127.0.0.1",
+        "8888",
+        "1048576"
+      ]
+    },
+    {
+      "name": "add-node",
+      "args": [
+        "Node8889",
+        "127.0.0.1",
+        "8889",
+        "1048576"
+      ]
+    },
+    {
+      "name": "add-node",
+      "args": [
+        "Node8890",
+        "127.0.0.1",
+        "8890",
+        "1048576"
+      ]
+    },
+    {
+      "name": "add-node",
+      "args": [
+        "Node8891",
+        "127.0.0.1",
+        "8891",
+        "1048576"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "E:\\Desktop\\Распределённая файловая система\\Server\\Test1.txt",
+        "Test1.txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "E:\\Desktop\\Распределённая файловая система\\Server\\Test1.txt",
+        "Test12.txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "E:\\Desktop\\Распределённая файловая система\\Server\\Test1.txt",
+        "Test13.txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "E:\\Desktop\\Распределённая файловая система\\Server\\Test1.txt",
+        "Test14.txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "E:\\Desktop\\Распределённая файловая система\\Server\\Test.txt",
+        "Test.txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "E:\\Desktop\\Распределённая файловая система\\Server\\Test2.txt",
+        "Test2.txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "E:\\Desktop\\Распределённая файловая система\\Server\\Test3.txt",
+        "Test3.txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "E:\\Desktop\\Распределённая файловая система\\Server\\Test4.txt",
+        "Test4.txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "E:\\Desktop\\Распределённая файловая система\\Server\\Test2.txt",
+        "Test22.txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "E:\\Desktop\\Распределённая файловая система\\Server\\Test3.txt",
+        "Test32.txt"
+      ]
+    },
+    {
+      "name": "balance",
+      "args": []
+    }
+  ]
+}

@@ -11,5 +11,6 @@ nodeService.AddFile(@"E:\Desktop\Распределённая файловая �
 nodeService.DeleteFile(@"Test1.txt");
 nodeService.DeleteFile(@"T\Test1.txt");*/
 
+//nodeService.Execute(@"E:\ITMO prog\Prog\C#\Tech-Ar4eR-ValerA\Lab4\DistributedFileSystem\DistributedFileSystem.Server\simple-test-commands.json");
 nodeService.Execute(
-    @"E:\ITMO prog\Prog\C#\Tech-Ar4eR-ValerA\Lab4\DistributedFileSystem\DistributedFileSystem.Server\commands.json");
+    @"E:\ITMO prog\Prog\C#\Tech-Ar4eR-ValerA\Lab4\DistributedFileSystem\DistributedFileSystem.Server\balance-test-commands.json");

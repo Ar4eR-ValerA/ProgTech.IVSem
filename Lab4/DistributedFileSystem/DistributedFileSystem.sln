@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistributedFileSystem.Node8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistributedFileSystem.Domain", "DistributedFileSystem.Domain\DistributedFileSystem.Domain.csproj", "{0A174BD4-DF8C-4583-8C25-1132C21B3BD3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistributedFileSystem.Node8890", "DistributedFileSystem.Node8890\DistributedFileSystem.Node8890.csproj", "{2F7E1119-DD18-4BDC-ACD4-E66D2869F432}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistributedFileSystem.Node8891", "DistributedFileSystem.Node8891\DistributedFileSystem.Node8891.csproj", "{306E7953-B22B-4B55-A060-8BD625A7B841}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,13 @@ Global
 		{0A174BD4-DF8C-4583-8C25-1132C21B3BD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A174BD4-DF8C-4583-8C25-1132C21B3BD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A174BD4-DF8C-4583-8C25-1132C21B3BD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F7E1119-DD18-4BDC-ACD4-E66D2869F432}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F7E1119-DD18-4BDC-ACD4-E66D2869F432}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F7E1119-DD18-4BDC-ACD4-E66D2869F432}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F7E1119-DD18-4BDC-ACD4-E66D2869F432}.Release|Any CPU.Build.0 = Release|Any CPU
+		{306E7953-B22B-4B55-A060-8BD625A7B841}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{306E7953-B22B-4B55-A060-8BD625A7B841}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{306E7953-B22B-4B55-A060-8BD625A7B841}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{306E7953-B22B-4B55-A060-8BD625A7B841}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

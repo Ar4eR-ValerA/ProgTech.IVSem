@@ -19,6 +19,27 @@
     {
       "name": "add-file",
       "args": [
+        "E:\\Desktop\\Распределённая файловая система\\Server\\Test1.txt",
+        "Test2.txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "E:\\Desktop\\Распределённая файловая система\\Server\\Test1.txt",
+        "Test3.txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "E:\\Desktop\\Распределённая файловая система\\Server\\Test1.txt",
+        "Test4.txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
         "E:\\Desktop\\Распределённая файловая система\\Server\\Test.txt",
         "Test.txt"
       ]
@@ -43,6 +64,19 @@
       "args": [
         "Node8888"
       ]
+    },
+    {
+      "name": "add-node",
+      "args": [
+        "Node8888",
+        "127.0.0.1",
+        "8888",
+        "1048576"
+      ]
+    },
+    {
+      "name": "balance",
+      "args": []
     }
   ]
 }

@@ -69,6 +69,7 @@ public class NodeService
             AddFile(filePath, filePath);
 
             File.Delete(filePath);
+            GetInformation(filePath);
         }
     }
 
@@ -79,13 +80,14 @@ public class NodeService
         foreach (var (filePath, node) in _fileNodes)
         {
             var file = new FileInfo(filePath);
-            
+
             _fileSystemService.SaveFile(filePath, node.IpAddress, node.Port, filePath);
             _fileSystemService.DeleteFile(filePath, node.IpAddress, node.Port);
             node.FreeMemory += (int)file.Length;
             _fileNodes.Remove(filePath);
 
             fileSizes.Add((filePath, (int)file.Length));
+            GetInformation(filePath);
         }
 
         if (fileSizes.Count == 0)
@@ -95,50 +97,33 @@ public class NodeService
 
         fileSizes = fileSizes.OrderByDescending(x => x.size).ToList();
 
-        var firstFile = fileSizes.First();
-        var suitableNodes = _nodes.Where(n => n.FreeMemory > firstFile.size).ToList();
-
         if (_nodes.Count == 0)
         {
             return;
         }
-        
-        Node lastNode;
-        if (_nodes.Count == 1)
-        {
-            lastNode = Nodes[0];
-        }
-        else
-        {
-            lastNode = Nodes[suitableNodes.Count - 1];
-        }
 
-        _fileSystemService.SendFile(firstFile.filePath, lastNode.IpAddress, lastNode.Port, firstFile.filePath);
-        _fileNodes.Add(firstFile.filePath, lastNode);
-        lastNode.FreeMemory -= firstFile.size;
-        var prevSize = firstFile.size;
-        fileSizes.Remove(firstFile);
-        File.Delete(firstFile.filePath);
-
+        const double balanceConst = 0.9;
         while (fileSizes.Count > 0)
         {
+            var prevPart = 0.01;
             foreach (var node in Nodes)
             {
-                var currentSize = 0;
+                var currentPart = 0.0;
                 while (fileSizes.Count > 0 &&
-                       prevSize > currentSize &&
+                       prevPart * balanceConst > currentPart &&
                        fileSizes.First().size < node.Size)
                 {
-                    var filePath = fileSizes.First();
-                    AddFile(filePath.filePath, filePath.filePath, node);
+                    var file = fileSizes.First();
+                    AddFile(file.filePath, file.filePath, node);
 
-                    currentSize += fileSizes.First().size;
-                    
-                    fileSizes.Remove(filePath);
-                    File.Delete(filePath.filePath);
+                    currentPart += (double)fileSizes.First().size / node.Size;
+
+                    fileSizes.Remove(file);
+                    File.Delete(file.filePath);
+                    GetInformation(file.filePath);
                 }
 
-                prevSize = currentSize;
+                prevPart = currentPart;
             }
         }
     }
@@ -163,28 +148,70 @@ public class NodeService
                         IPAddress.Parse(command.Arguments[1]),
                         Convert.ToInt32(command.Arguments[2]),
                         Convert.ToInt32(command.Arguments[3]));
+                    GetInformation(command);
                     break;
 
                 case "add-file":
                     AddFile(command.Arguments[0], command.Arguments[1]);
+                    GetInformation(command);
                     break;
 
                 case "delete-file":
                     DeleteFile(command.Arguments[0]);
+                    GetInformation(command);
                     break;
 
                 case "clean-node":
                     CleanNode(command.Arguments[0]);
+                    GetInformation(command);
                     break;
 
                 case "balance":
                     Balance();
+                    GetInformation(command);
                     break;
 
                 case "exec":
                     Execute(command.Arguments[0]);
+                    GetInformation(command);
                     break;
             }
+        }
+    }
+
+    public void GetInformation(Command command)
+    {
+        Console.Clear();
+
+        Console.WriteLine($"Command {command.Name} done. Args:");
+        foreach (var argument in command.Arguments)
+        {
+            Console.WriteLine($"{argument}");
+        }
+
+        Console.WriteLine();
+
+        Console.WriteLine("Nodes:");
+        foreach (var node in Nodes)
+        {
+            Console.WriteLine(
+                $"{node.Name}: {(int)((double)(node.Size - node.FreeMemory) / node.Size * 100.0)} % " +
+                $"({(node.Size - node.FreeMemory) / 1048576} / {node.Size / 1048576} MB)");
+        }
+    }
+
+    public void GetInformation(string filePath)
+    {
+        Console.Clear();
+
+        Console.WriteLine($"File {filePath} was moved");
+
+        Console.WriteLine("Nodes:");
+        foreach (var node in Nodes)
+        {
+            Console.WriteLine(
+                $"{node.Name}: {(int)((double)(node.Size - node.FreeMemory) / node.Size * 100.0)} % " +
+                $"({(node.Size - node.FreeMemory) / 1048576} / {node.Size / 1048576} MB)");
         }
     }
 

@@ -19,21 +19,11 @@ public class WindowsFileSystemService : IFileSystemService
 
         var fileNameLength = ReadStringLength(stream);
         var fileName = ReadString(fileNameLength, stream);
-
-        var fileSize = ReadStringLength(stream);
         var fullPath = $@"{Path}\{fileName}";
         
-        var buffer = new byte[fileSize];
-                
-        stream.Read(buffer, 0, fileSize);
-        stream.Close();
-
         Directory.CreateDirectory(System.IO.Path.GetDirectoryName(fullPath) ?? string.Empty);
-        using var fileStream = new FileStream(fullPath, FileMode.Create);
-        fileStream.Write(buffer, 0, buffer.Length);
-        
-        fileStream.Flush();
-        fileStream.Close();
+        ReadFile(fullPath, stream);
+        stream.Close();
     }
 
     public void SendFile(TcpClient tcpClient)
@@ -44,13 +34,11 @@ public class WindowsFileSystemService : IFileSystemService
         var fileName = ReadString(fileNameLength, stream);
         var fullPath = $@"{Path}\{fileName}";
         
-        var targetFileLength = ReadStringLength(stream);
-        var targetFile = ReadString(targetFileLength, stream);
+        var targetFilePathLength = ReadStringLength(stream);
+        var targetFilePath = ReadString(targetFilePathLength, stream);
 
-        SendString(targetFile, stream);
+        SendString(targetFilePath, stream);
         
-        var bytes = File.ReadAllBytes(fullPath);
-        SendInt(bytes.Length, stream);
         tcpClient.Client.SendFile(fullPath);
         stream.Flush();
 
@@ -90,10 +78,17 @@ public class WindowsFileSystemService : IFileSystemService
         streamWriter.Write(Encoding.ASCII.GetBytes(str));
         streamWriter.Flush();
     }
-    
-    private void SendInt(int number, NetworkStream streamWriter)
+
+    private void ReadFile(string filePath, NetworkStream stream)
     {
-        streamWriter.Write(BitConverter.GetBytes(number));
-        streamWriter.Flush();
+        var file = File.Create(filePath);
+        
+        var buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
+        {
+            file.Write(buffer, 0, bytesRead);
+        }
+        file.Close();
     }
 }

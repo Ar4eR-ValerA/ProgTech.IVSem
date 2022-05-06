@@ -6,13 +6,13 @@ using DistributedFileSystem.Services.Interfaces;
 namespace DistributedFileSystem.Services;
 
 public class WindowsFileSystemService : IFileSystemService
-{ 
+{
     public void SaveFile(string filePath, IPAddress ipAddress, int port, string newFilePath)
     {
         using var tcpClient = new TcpClient(ipAddress.ToString(), port);
 
         var stream = tcpClient.GetStream();
-
+        
         SendString("send", stream);
         SendString(filePath, stream);
         SendString(newFilePath, stream);
@@ -20,39 +20,27 @@ public class WindowsFileSystemService : IFileSystemService
         var fileNameLength = ReadStringLength(stream);
         var fileName = ReadString(fileNameLength, stream);
         
-        var fileSize = ReadStringLength(stream);
-        var buffer = new byte[fileSize];
-
-        stream.Read(buffer, 0, fileSize);
+        ReadFile(fileName, stream);
         stream.Close();
-
-        using var fileStream = new FileStream(fileName, FileMode.Create);
-        fileStream.Write(buffer, 0, buffer.Length);
-        fileStream.Flush();
-        fileStream.Close();
         tcpClient.Close();
     }
 
     public void SendFile(string filePath, IPAddress ipAddress, int port, string newFilePath)
     {
         using var tcpClient = new TcpClient(ipAddress.ToString(), port);
-        var bytes = File.ReadAllBytes(filePath);
-        // TODO: Сделать через stream
 
         var stream = tcpClient.GetStream();
-        
+
         SendString("save", stream);
         SendString(newFilePath, stream);
-        
-        SendInt(bytes.Length, stream);
-        
+
         tcpClient.Client.SendFile(filePath);
         stream.Flush();
-            
+
         stream.Close();
         tcpClient.Close();
     }
-    
+
     public void DeleteFile(string filePath, IPAddress ipAddress, int port)
     {
         using var tcpClient = new TcpClient(ipAddress.ToString(), port);
@@ -64,7 +52,7 @@ public class WindowsFileSystemService : IFileSystemService
         stream.Close();
         tcpClient.Close();
     }
-    
+
     private string ReadString(int length, NetworkStream stream)
     {
         var buffer = new byte[length];
@@ -85,10 +73,17 @@ public class WindowsFileSystemService : IFileSystemService
         streamWriter.Write(Encoding.ASCII.GetBytes(str));
         streamWriter.Flush();
     }
-    
-    private void SendInt(int number, NetworkStream streamWriter)
+
+    private void ReadFile(string filePath, NetworkStream stream)
     {
-        streamWriter.Write(BitConverter.GetBytes(number));
-        streamWriter.Flush();
+        var file = File.Create(filePath);
+        
+        var buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
+        {
+            file.Write(buffer, 0, bytesRead);
+        }
+        file.Close();
     }
 }

@@ -22,22 +22,42 @@ public class Listener
 
             switch (mode)
             {
-                case "save":
-                    fileSystemService.SaveFile(tcpClient);
+                case "save-from-server":
+                    fileSystemService.SaveFileFromServer(tcpClient);
+
+                    tcpClient.Close();
+                    break;
+                
+                case "save-from-node":
+                    fileSystemService.SaveFileFromNode(tcpClient);
 
                     tcpClient.Close();
                     break;
 
-                case "send":
+                case "send-to-server":
                 {
-                    fileSystemService.SendFile(tcpClient);
+                    fileSystemService.SendFileToServer(tcpClient);
                     
                     tcpClient.Close();
                     break;
                 }
                 
+                case "send-to-node":
+                {
+                    fileSystemService.SendFileToNode(tcpClient);
+                    
+                    tcpClient.Close();
+                    break;
+                }
+
                 case "delete":
                     fileSystemService.DeleteFile(tcpClient);
+                    
+                    tcpClient.Close();
+                    break;
+                
+                case "send-file-size":
+                    fileSystemService.SendFileSize(tcpClient);
                     
                     tcpClient.Close();
                     break;

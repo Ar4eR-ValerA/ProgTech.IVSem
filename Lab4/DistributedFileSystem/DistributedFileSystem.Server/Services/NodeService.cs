@@ -41,18 +41,15 @@ public class NodeService
         }
 
         var selectedNode = suitableNodes[new Random().Next(0, suitableNodes.Count)];
-        _fileSystemService.SendFile(filePath, selectedNode.IpAddress, selectedNode.Port, newPath);
-        selectedNode.FreeMemory -= (int)file.Length;
-
-        _fileNodes.Add(newPath, selectedNode);
+        AddFile(filePath, newPath, selectedNode);
     }
 
     public void DeleteFile(string filePath)
     {
         var node = FilesNodes[filePath];
 
+        node.FreeMemory += _fileSystemService.GetFileSize(filePath, node.IpAddress, node.Port);
         _fileSystemService.DeleteFile(filePath, node.IpAddress, node.Port);
-        node.FreeMemory += (int)new FileInfo(filePath).Length;
         _fileNodes.Remove(filePath);
     }
 
@@ -63,12 +60,10 @@ public class NodeService
 
         foreach (var (filePath, _) in _fileNodes.Where(fileNode => fileNode.Value == node).ToList())
         {
-            _fileSystemService.SaveFile(filePath, node.IpAddress, node.Port, filePath);
-            _fileSystemService.DeleteFile(filePath, node.IpAddress, node.Port);
-            _fileNodes.Remove(filePath);
-            AddFile(filePath, filePath);
+            var newNode = Nodes[new Random().Next(0, Nodes.Count)];
 
-            File.Delete(filePath);
+            TransferFileToOtherNode(filePath, node, newNode);
+
             GetInformation(filePath);
         }
     }
@@ -77,16 +72,14 @@ public class NodeService
     {
         var fileSizes = new List<(string filePath, int size)>();
 
-        foreach (var (filePath, node) in _fileNodes)
+        foreach (var (filePath, node) in FilesNodes)
         {
-            var file = new FileInfo(filePath);
+            var fileSize = _fileSystemService.GetFileSize(filePath, node.IpAddress, node.Port);
 
-            _fileSystemService.SaveFile(filePath, node.IpAddress, node.Port, filePath);
-            _fileSystemService.DeleteFile(filePath, node.IpAddress, node.Port);
-            node.FreeMemory += (int)file.Length;
-            _fileNodes.Remove(filePath);
+            // TODO: костыль. Нужно убрать превышение размера нодой.
+            node.FreeMemory += fileSize;
 
-            fileSizes.Add((filePath, (int)file.Length));
+            fileSizes.Add((filePath, fileSize));
             GetInformation(filePath);
         }
 
@@ -111,15 +104,14 @@ public class NodeService
                 var currentPart = 0.0;
                 while (fileSizes.Count > 0 &&
                        prevPart * balanceConst > currentPart &&
-                       fileSizes.First().size < node.Size)
+                       fileSizes.First().size < node.FreeMemory)
                 {
                     var file = fileSizes.First();
-                    AddFile(file.filePath, file.filePath, node);
+                    TransferFileToOtherNode(file.filePath, FilesNodes[file.filePath], node);
 
                     currentPart += (double)fileSizes.First().size / node.Size;
 
                     fileSizes.Remove(file);
-                    File.Delete(file.filePath);
                     GetInformation(file.filePath);
                 }
 
@@ -179,7 +171,31 @@ public class NodeService
         }
     }
 
-    public void GetInformation(Command command)
+    private void TransferFileToOtherNode(string filePath, Node nodeFrom, Node nodeTo)
+    {
+        if (nodeFrom != nodeTo)
+        {
+            _fileSystemService.TransferFileToOtherNode(
+                filePath,
+                nodeFrom.IpAddress,
+                nodeFrom.Port,
+                nodeTo.IpAddress,
+                nodeTo.Port);
+        }
+
+        // TODO: костыль. Нужно убрать превышение размера нодой.
+        //nodeFrom.FreeMemory += _fileSystemService.GetFileSize(filePath, nodeFrom.IpAddress, nodeFrom.Port);
+        nodeTo.FreeMemory -= _fileSystemService.GetFileSize(filePath, nodeFrom.IpAddress, nodeFrom.Port);
+
+        if (nodeFrom != nodeTo)
+        {
+            _fileSystemService.DeleteFile(filePath, nodeFrom.IpAddress, nodeFrom.Port);
+            _fileNodes.Remove(filePath);
+            _fileNodes.Add(filePath, nodeTo);
+        }
+    }
+
+    private void GetInformation(Command command)
     {
         Console.Clear();
 
@@ -200,7 +216,7 @@ public class NodeService
         }
     }
 
-    public void GetInformation(string filePath)
+    private void GetInformation(string filePath)
     {
         Console.Clear();
 
@@ -219,7 +235,7 @@ public class NodeService
     {
         var file = new FileInfo(filePath);
 
-        _fileSystemService.SendFile(filePath, node.IpAddress, node.Port, newPath);
+        _fileSystemService.SendFileToNode(filePath, node.IpAddress, node.Port, newPath);
         node.FreeMemory -= (int)file.Length;
 
         _fileNodes.Add(newPath, node);

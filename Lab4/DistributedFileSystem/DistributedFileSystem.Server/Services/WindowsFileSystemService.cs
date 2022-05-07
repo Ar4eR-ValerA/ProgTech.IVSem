@@ -7,31 +7,47 @@ namespace DistributedFileSystem.Services;
 
 public class WindowsFileSystemService : IFileSystemService
 {
-    public void SaveFile(string filePath, IPAddress ipAddress, int port, string newFilePath)
+    public void SaveFileToServer(string filePath, IPAddress ipAddress, int port, string newFilePath)
     {
-        using var tcpClient = new TcpClient(ipAddress.ToString(), port);
+        var tcpClient = new TcpClient(ipAddress.ToString(), port);
 
         var stream = tcpClient.GetStream();
-        
-        SendString("send", stream);
-        SendString(filePath, stream);
-        SendString(newFilePath, stream);
 
-        var fileNameLength = ReadStringLength(stream);
-        var fileName = ReadString(fileNameLength, stream);
-        
-        ReadFile(fileName, stream);
+        SendString("send-to-server", stream);
+        SendString(filePath, stream);
+
+        ReadFile(newFilePath, stream);
         stream.Close();
         tcpClient.Close();
     }
 
-    public void SendFile(string filePath, IPAddress ipAddress, int port, string newFilePath)
+    public void TransferFileToOtherNode(
+        string filePath,
+        IPAddress ipAddressFrom,
+        int portFrom,
+        IPAddress ipAddressTo,
+        int portTo)
     {
-        using var tcpClient = new TcpClient(ipAddress.ToString(), port);
+        var tcpClientFrom = new TcpClient(ipAddressFrom.ToString(), portFrom);
+        var streamFrom = tcpClientFrom.GetStream();
+
+        SendString("send-to-node", streamFrom);
+        SendString(filePath, streamFrom);
+        SendString(ipAddressTo.ToString(), streamFrom);
+        SendString(portTo.ToString(), streamFrom);
+
+        streamFrom.Close();
+        tcpClientFrom.Close();
+    }
+
+
+    public void SendFileToNode(string filePath, IPAddress ipAddress, int port, string newFilePath)
+    {
+        var tcpClient = new TcpClient(ipAddress.ToString(), port);
 
         var stream = tcpClient.GetStream();
 
-        SendString("save", stream);
+        SendString("save-from-server", stream);
         SendString(newFilePath, stream);
 
         tcpClient.Client.SendFile(filePath);
@@ -43,14 +59,30 @@ public class WindowsFileSystemService : IFileSystemService
 
     public void DeleteFile(string filePath, IPAddress ipAddress, int port)
     {
-        using var tcpClient = new TcpClient(ipAddress.ToString(), port);
+        var tcpClient = new TcpClient(ipAddress.ToString(), port);
         var stream = tcpClient.GetStream();
-        
+
         SendString("delete", stream);
         SendString(filePath, stream);
 
         stream.Close();
         tcpClient.Close();
+    }
+
+    public int GetFileSize(string filePath, IPAddress ipAddress, int port)
+    {
+        var tcpClient = new TcpClient(ipAddress.ToString(), port);
+        var stream = tcpClient.GetStream();
+
+        SendString("send-file-size", stream);
+        SendString(filePath, stream);
+
+        var fileSize = ReadInt(stream);
+        
+        stream.Close();
+        tcpClient.Close();
+
+        return fileSize;
     }
 
     private string ReadString(int length, NetworkStream stream)
@@ -60,7 +92,7 @@ public class WindowsFileSystemService : IFileSystemService
         return Encoding.Default.GetString(buffer);
     }
 
-    private int ReadStringLength(NetworkStream stream)
+    private int ReadInt(NetworkStream stream)
     {
         var buffer = new byte[4];
         stream.Read(buffer, 0, buffer.Length);
@@ -77,13 +109,14 @@ public class WindowsFileSystemService : IFileSystemService
     private void ReadFile(string filePath, NetworkStream stream)
     {
         var file = File.Create(filePath);
-        
+
         var buffer = new byte[1024];
         int bytesRead;
         while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
         {
             file.Write(buffer, 0, bytesRead);
         }
+
         file.Close();
     }
 }

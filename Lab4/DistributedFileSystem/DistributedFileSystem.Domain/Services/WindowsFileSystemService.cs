@@ -13,7 +13,7 @@ public class WindowsFileSystemService : IFileSystemService
     
     public string Path { get; }
 
-    public void SaveFile(TcpClient tcpClient)
+    public void SaveFileFromServer(TcpClient tcpClient)
     {
         var stream = tcpClient.GetStream();
 
@@ -26,25 +26,64 @@ public class WindowsFileSystemService : IFileSystemService
         stream.Close();
     }
 
-    public void SendFile(TcpClient tcpClient)
+    public void SaveFileFromNode(TcpClient tcpClient)
+    {
+        var stream = tcpClient.GetStream();
+
+        var fileNameLength = ReadStringLength(stream);
+        var fileName = ReadString(fileNameLength, stream);
+        var fullPath = $@"{Path}\{fileName}";
+        
+        Directory.CreateDirectory(System.IO.Path.GetDirectoryName(fullPath) ?? string.Empty);
+        
+        ReadFile(fullPath, stream);
+        
+        stream.Close();
+        tcpClient.Close();
+    }
+
+    public void SendFileToServer(TcpClient tcpClient)
     {
         var stream = tcpClient.GetStream();
         
         var fileNameLength = ReadStringLength(stream);
         var fileName = ReadString(fileNameLength, stream);
         var fullPath = $@"{Path}\{fileName}";
-        
-        var targetFilePathLength = ReadStringLength(stream);
-        var targetFilePath = ReadString(targetFilePathLength, stream);
 
-        SendString(targetFilePath, stream);
-        
         tcpClient.Client.SendFile(fullPath);
         stream.Flush();
 
         stream.Close();
     }
-    
+
+    public void SendFileToNode(TcpClient tcpClient)
+    {
+        var stream = tcpClient.GetStream();
+        
+        var fileNameLength = ReadStringLength(stream);
+        var fileName = ReadString(fileNameLength, stream);
+        var fullPath = $@"{Path}\{fileName}";
+
+        var ipAddressLength = ReadStringLength(stream);
+        var ipAddress = ReadString(ipAddressLength, stream);
+        
+        var portLength = ReadStringLength(stream);
+        var port = ReadString(portLength, stream);
+
+        stream.Flush();
+        stream.Close();
+        
+        var newTcpClient = new TcpClient(ipAddress, Convert.ToInt32(port));
+        var newStream = newTcpClient.GetStream();
+        
+        SendString("save-from-node", newStream);
+        SendString(fileName, newStream);
+        
+        newTcpClient.Client.SendFile(fullPath);
+        newStream.Close();
+        newTcpClient.Close();
+    }
+
     public void DeleteFile(TcpClient tcpClient)
     {
         var stream = tcpClient.GetStream();
@@ -56,6 +95,20 @@ public class WindowsFileSystemService : IFileSystemService
         var fullPath = $@"{Path}\{fileName}";
         
         File.Delete(fullPath);
+    }
+
+    public void SendFileSize(TcpClient tcpClient)
+    {
+        var stream = tcpClient.GetStream();
+
+        var fileNameLength = ReadStringLength(stream);
+        var fileName = ReadString(fileNameLength, stream);
+        var fullPath = $@"{Path}\{fileName}";
+
+        var fileSize = (int)new FileInfo(fullPath).Length;
+        stream.Write(BitConverter.GetBytes(fileSize));
+        
+        stream.Close();
     }
 
     private string ReadString(int length, NetworkStream stream)

@@ -76,9 +76,6 @@ public class NodeService
         {
             var fileSize = _fileSystemService.GetFileSize(filePath, node.IpAddress, node.Port);
 
-            // TODO: костыль. Нужно убрать превышение размера нодой.
-            node.FreeMemory += fileSize;
-
             fileSizes.Add((filePath, fileSize));
             GetInformation(filePath);
         }
@@ -96,18 +93,34 @@ public class NodeService
         }
 
         const double balanceConst = 0.9;
+        var extraFiles = new List<(string filePath, Node node)>();
+
         while (fileSizes.Count > 0)
         {
             var prevPart = 0.01;
             foreach (var node in Nodes)
             {
                 var currentPart = 0.0;
-                while (fileSizes.Count > 0 &&
-                       prevPart * balanceConst > currentPart &&
-                       fileSizes.First().size < node.FreeMemory)
+                while (fileSizes.Count > 0 && prevPart * balanceConst > currentPart)
                 {
                     var file = fileSizes.First();
-                    TransferFileToOtherNode(file.filePath, FilesNodes[file.filePath], node);
+
+                    if (file.size > node.FreeMemory)
+                    {
+                        _fileSystemService.SaveFileToServer(
+                            file.filePath, 
+                            FilesNodes[file.filePath].IpAddress,
+                            FilesNodes[file.filePath].Port, 
+                            file.filePath);
+                        FilesNodes[file.filePath].FreeMemory += file.size;
+
+                        extraFiles.Add((file.filePath, node));
+                        _fileNodes.Remove(file.filePath);
+                    }
+                    else
+                    {
+                        TransferFileToOtherNode(file.filePath, FilesNodes[file.filePath], node);
+                    }
 
                     currentPart += (double)fileSizes.First().size / node.Size;
 
@@ -117,6 +130,12 @@ public class NodeService
 
                 prevPart = currentPart;
             }
+        }
+
+        foreach (var file in extraFiles)
+        {
+            AddFile(file.filePath, file.filePath, file.node);
+            GetInformation(file.filePath);
         }
     }
 
@@ -183,8 +202,7 @@ public class NodeService
                 nodeTo.Port);
         }
 
-        // TODO: костыль. Нужно убрать превышение размера нодой.
-        //nodeFrom.FreeMemory += _fileSystemService.GetFileSize(filePath, nodeFrom.IpAddress, nodeFrom.Port);
+        nodeFrom.FreeMemory += _fileSystemService.GetFileSize(filePath, nodeFrom.IpAddress, nodeFrom.Port);
         nodeTo.FreeMemory -= _fileSystemService.GetFileSize(filePath, nodeFrom.IpAddress, nodeFrom.Port);
 
         if (nodeFrom != nodeTo)

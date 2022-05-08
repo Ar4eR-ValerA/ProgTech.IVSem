@@ -135,6 +135,8 @@ public class NodeService
         foreach (var file in extraFiles)
         {
             AddFile(file.filePath, file.filePath, file.node);
+            File.Delete(file.filePath);
+            
             GetInformation(file.filePath);
         }
     }

@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistributedFileSystem.Node8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistributedFileSystem.Node8891", "DistributedFileSystem.Node8891\DistributedFileSystem.Node8891.csproj", "{306E7953-B22B-4B55-A060-8BD625A7B841}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistributedFileSystem.Benchmark", "DistributedFileSystem.Benchmark\DistributedFileSystem.Benchmark.csproj", "{44BD1EAF-8FD2-4B7A-A4A4-7A512B51EEFF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{306E7953-B22B-4B55-A060-8BD625A7B841}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{306E7953-B22B-4B55-A060-8BD625A7B841}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{306E7953-B22B-4B55-A060-8BD625A7B841}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44BD1EAF-8FD2-4B7A-A4A4-7A512B51EEFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44BD1EAF-8FD2-4B7A-A4A4-7A512B51EEFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44BD1EAF-8FD2-4B7A-A4A4-7A512B51EEFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44BD1EAF-8FD2-4B7A-A4A4-7A512B51EEFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

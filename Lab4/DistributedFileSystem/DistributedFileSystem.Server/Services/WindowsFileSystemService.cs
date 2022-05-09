@@ -69,7 +69,7 @@ public class WindowsFileSystemService : IFileSystemService
         tcpClient.Close();
     }
 
-    public int GetFileSize(string filePath, IPAddress ipAddress, int port)
+    public long GetFileSize(string filePath, IPAddress ipAddress, int port)
     {
         var tcpClient = new TcpClient(ipAddress.ToString(), port);
         var stream = tcpClient.GetStream();
@@ -77,7 +77,7 @@ public class WindowsFileSystemService : IFileSystemService
         SendString("send-file-size", stream);
         SendString(filePath, stream);
 
-        var fileSize = ReadInt(stream);
+        var fileSize = ReadNumber(stream);
         
         stream.Close();
         tcpClient.Close();
@@ -92,11 +92,11 @@ public class WindowsFileSystemService : IFileSystemService
         return Encoding.Default.GetString(buffer);
     }
 
-    private int ReadInt(NetworkStream stream)
+    private long ReadNumber(NetworkStream stream)
     {
-        var buffer = new byte[4];
+        var buffer = new byte[8];
         stream.Read(buffer, 0, buffer.Length);
-        return BitConverter.ToInt32(buffer);
+        return BitConverter.ToInt64(buffer);
     }
 
     private void SendString(string str, NetworkStream streamWriter)

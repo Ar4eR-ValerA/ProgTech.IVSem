@@ -105,7 +105,7 @@ public class WindowsFileSystemService : IFileSystemService
         var fileName = ReadString(fileNameLength, stream);
         var fullPath = $@"{Path}\{fileName}";
 
-        var fileSize = (int)new FileInfo(fullPath).Length;
+        var fileSize = new FileInfo(fullPath).Length;
         stream.Write(BitConverter.GetBytes(fileSize));
         
         stream.Close();

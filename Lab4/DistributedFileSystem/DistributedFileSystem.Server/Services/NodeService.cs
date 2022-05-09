@@ -22,7 +22,7 @@ public class NodeService
     public IReadOnlyList<Node> Nodes => _nodes;
     public IReadOnlyDictionary<string, Node> FilesNodes => _fileNodes;
 
-    public void AddNode(string name, IPAddress ipAddress, int port, int size)
+    public void AddNode(string name, IPAddress ipAddress, int port, long size)
     {
         var node = new Node(name, ipAddress, port, size);
 
@@ -70,7 +70,7 @@ public class NodeService
 
     public void Balance()
     {
-        var fileSizes = new List<(string filePath, int size)>();
+        var fileSizes = new List<(string filePath, long size)>();
 
         foreach (var (filePath, node) in FilesNodes)
         {
@@ -160,7 +160,7 @@ public class NodeService
                         command.Arguments[0],
                         IPAddress.Parse(command.Arguments[1]),
                         Convert.ToInt32(command.Arguments[2]),
-                        Convert.ToInt32(command.Arguments[3]));
+                        Convert.ToInt64(command.Arguments[3]));
                     GetInformation(command);
                     break;
 
@@ -231,7 +231,7 @@ public class NodeService
         foreach (var node in Nodes)
         {
             Console.WriteLine(
-                $"{node.Name}: {(int)((double)(node.Size - node.FreeMemory) / node.Size * 100.0)} % " +
+                $"{node.Name}: {(long)((double)(node.Size - node.FreeMemory) / node.Size * 100.0)} % " +
                 $"({(node.Size - node.FreeMemory) / 1048576} / {node.Size / 1048576} MB)");
         }
     }
@@ -246,7 +246,7 @@ public class NodeService
         foreach (var node in Nodes)
         {
             Console.WriteLine(
-                $"{node.Name}: {(int)((double)(node.Size - node.FreeMemory) / node.Size * 100.0)} % " +
+                $"{node.Name}: {(long)((double)(node.Size - node.FreeMemory) / node.Size * 100.0)} % " +
                 $"({(node.Size - node.FreeMemory) / 1048576} / {node.Size / 1048576} MB)");
         }
     }
@@ -256,7 +256,7 @@ public class NodeService
         var file = new FileInfo(filePath);
 
         _fileSystemService.SendFileToNode(filePath, node.IpAddress, node.Port, newPath);
-        node.FreeMemory -= (int)file.Length;
+        node.FreeMemory -= file.Length;
 
         _fileNodes.Add(newPath, node);
     }

@@ -15,5 +15,5 @@ public interface IFileSystemService
 
     public void SendFileToNode(string filePath, IPAddress ipAddress, int port, string newFilePath);
     public void DeleteFile(string filePath, IPAddress ipAddress, int port);
-    public int GetFileSize(string filePath, IPAddress ipAddress, int port);
+    public long GetFileSize(string filePath, IPAddress ipAddress, int port);
 }

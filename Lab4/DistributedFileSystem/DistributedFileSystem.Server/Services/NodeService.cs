@@ -217,37 +217,37 @@ public class NodeService
 
     private void GetInformation(Command command)
     {
-        //Console.Clear();
+        Console.Clear();
 
-        //Console.WriteLine($"Command {command.Name} done. Args:");
+        Console.WriteLine($"Command {command.Name} done. Args:");
         foreach (var argument in command.Arguments)
         {
-            //Console.WriteLine($"{argument}");
+            Console.WriteLine($"{argument}");
         }
 
-        //Console.WriteLine();
+        Console.WriteLine();
 
-        //Console.WriteLine("Nodes:");
+        Console.WriteLine("Nodes:");
         foreach (var node in Nodes)
         {
-            //Console.WriteLine(
-            //    $"{node.Name}: {(long)((double)(node.Size - node.FreeMemory) / node.Size * 100.0)} % " +
-            //    $"({(node.Size - node.FreeMemory) / 1048576} / {node.Size / 1048576} MB)");
+            Console.WriteLine(
+                $"{node.Name}: {(long)((double)(node.Size - node.FreeMemory) / node.Size * 100.0)} % " +
+                $"({(node.Size - node.FreeMemory) / 1048576} / {node.Size / 1048576} MB)");
         }
     }
 
     private void GetInformation(string filePath)
     {
-        //Console.Clear();
+        Console.Clear();
 
-        //Console.WriteLine($"File {filePath} was moved");
+        Console.WriteLine($"File {filePath} was moved");
 
-        //Console.WriteLine("Nodes:");
+        Console.WriteLine("Nodes:");
         foreach (var node in Nodes)
         {
-            //Console.WriteLine(
-            //$"{node.Name}: {(long)((double)(node.Size - node.FreeMemory) / node.Size * 100.0)} % " +
-            //$"({(node.Size - node.FreeMemory) / 1048576} / {node.Size / 1048576} MB)");
+            Console.WriteLine(
+            $"{node.Name}: {(long)((double)(node.Size - node.FreeMemory) / node.Size * 100.0)} % " +
+            $"({(node.Size - node.FreeMemory) / 1048576} / {node.Size / 1048576} MB)");
         }
     }
 

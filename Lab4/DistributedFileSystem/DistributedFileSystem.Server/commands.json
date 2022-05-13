@@ -1,0 +1,641 @@
+﻿{
+  "commands": [
+    {
+      "name": "add-node",
+      "args": [
+        "Node8888",
+        "127.0.0.1",
+        "8888",
+        "10000000"
+      ]
+    },
+    {
+      "name": "add-node",
+      "args": [
+        "Node8889",
+        "127.0.0.1",
+        "8889",
+        "10000000"
+      ]
+    },
+    {
+      "name": "add-node",
+      "args": [
+        "Node8890",
+        "127.0.0.1",
+        "8890",
+        "10000000"
+      ]
+    },
+    {
+      "name": "add-node",
+      "args": [
+        "Node8891",
+        "127.0.0.1",
+        "8891",
+        "10000000"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1.txt",
+        "1.txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия.txt",
+        "1 copy.txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (2).txt",
+        "1 copy (2).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (3).txt",
+        "1 copy (3).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (4).txt",
+        "1 copy (4).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (5).txt",
+        "1 copy (5).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (6).txt",
+        "1 copy (6).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (7).txt",
+        "1 copy (7).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (8).txt",
+        "1 copy (8).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (9).txt",
+        "1 copy (9).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (10).txt",
+        "1 copy (10).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (11).txt",
+        "1 copy (11).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (12).txt",
+        "1 copy (12).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (13).txt",
+        "1 copy (13).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (14).txt",
+        "1 copy (14).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (15).txt",
+        "1 copy (15).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (16).txt",
+        "1 copy (16).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (17).txt",
+        "1 copy (17).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (18).txt",
+        "1 copy (18).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (19).txt",
+        "1 copy (19).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (20).txt",
+        "1 copy (20).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (21).txt",
+        "1 copy (21).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (22).txt",
+        "1 copy (22).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (23).txt",
+        "1 copy (23).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (24).txt",
+        "1 copy (24).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (25).txt",
+        "1 copy (25).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (26).txt",
+        "1 copy (26).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (27).txt",
+        "1 copy (27).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (28).txt",
+        "1 copy (28).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (29).txt",
+        "1 copy (29).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (30).txt",
+        "1 copy (30).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (31).txt",
+        "1 copy (31).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (32).txt",
+        "1 copy (32).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\1 — копия (33).txt",
+        "1 copy (33).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\2.txt",
+        "2.txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\2 — копия.txt",
+        "2 copy.txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\2 — копия (2).txt",
+        "2 copy (2).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\2 — копия (3).txt",
+        "2 copy (3).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\2 — копия (4).txt",
+        "2 copy (4).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\2 — копия (5).txt",
+        "2 copy (5).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\2 — копия (6).txt",
+        "2 copy (6).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\2 — копия (7).txt",
+        "2 copy (7).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\2 — копия (8).txt",
+        "2 copy (8).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\2 — копия (9).txt",
+        "2 copy (9).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\2 — копия (10).txt",
+        "2 copy (10).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\2 — копия (11).txt",
+        "2 copy (11).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\2 — копия (12).txt",
+        "2 copy (12).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\2 — копия (13).txt",
+        "2 copy (13).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\2 — копия (14).txt",
+        "2 copy (14).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\2 — копия (15).txt",
+        "2 copy (15).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\2 — копия (16).txt",
+        "2 copy (16).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\2 — копия (17).txt",
+        "2 copy (17).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\2 — копия (18).txt",
+        "2 copy (18).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\3.txt",
+        "3.txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\3 — копия.txt",
+        "3 copy.txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\3 — копия (2).txt",
+        "3 copy (2).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\3 — копия (3).txt",
+        "3 copy (3).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\3 — копия (4).txt",
+        "3 copy (4).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\3 — копия (5).txt",
+        "3 copy (5).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\3 — копия (6).txt",
+        "3 copy (6).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\3 — копия (7).txt",
+        "3 copy (7).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\3 — копия (8).txt",
+        "3 copy (8).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\3 — копия (9).txt",
+        "3 copy (9).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\3 — копия (10).txt",
+        "3 copy (10).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\3 — копия (11).txt",
+        "3 copy (11).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\3 — копия (12).txt",
+        "3 copy (12).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\3 — копия (13).txt",
+        "3 copy (13).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\3 — копия (14).txt",
+        "3 copy (14).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\3 — копия (15).txt",
+        "3 copy (15).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\4.txt",
+        "4.txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\4 — копия.txt",
+        "4 copy.txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\4 — копия (2).txt",
+        "4 copy (2).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\4 — копия (3).txt",
+        "4 copy (3).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\4 — копия (4).txt",
+        "4 copy (4).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\4 — копия (5).txt",
+        "4 copy (5).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\4 — копия (6).txt",
+        "4 copy (6).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\4 — копия (7).txt",
+        "4 copy (7).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\4 — копия (8).txt",
+        "4 copy (8).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\4 — копия (9).txt",
+        "4 copy (9).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\4 — копия (10).txt",
+        "4 copy (10).txt"
+      ]
+    },
+    {
+      "name": "add-file",
+      "args": [
+        "D:\\DFS\\Server\\4 — копия (11).txt",
+        "4 copy (11).txt"
+      ]
+    },
+    {
+      "name": "clean-node",
+      "args": [
+        "Node8888"
+      ]
+    },
+    {
+      "name": "clean-node",
+      "args": [
+        "Node8889"
+      ]
+    },
+    {
+      "name": "add-node",
+      "args": [
+        "Node8888",
+        "127.0.0.1",
+        "8888",
+        "10000000"
+      ]
+    },
+    {
+      "name": "add-node",
+      "args": [
+        "Node8889",
+        "127.0.0.1",
+        "8889",
+        "10000000"
+      ]
+    },
+    {
+      "name": "balance",
+      "args": []
+    }
+  ]
+}
